@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Documents | DocFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4361ee',
+                        primary50: '#f0f4ff',
+                        primary600: '#3f37c9',
+                        secondary: '#3f37c9',
+                        accent: '#4cc9f0',
+                        accent50: '#f0fdfe',
+                        dark: '#212529',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.3s ease-in',
+                        'slide-up': 'slideUp 0.3s ease-out'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #4361ee, #4cc9f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .search-gradient {
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(76, 201, 240, 0.1) 100%);
+        }
+        
+        .document-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(67, 97, 238, 0.3);
+        }
+        
+        .filter-pill {
+            transition: all 0.2s ease;
+        }
+        
+        .filter-pill:hover {
+            transform: scale(1.05);
+        }
+        
+        .search-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .shadow-card {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+        }
+        
+        .shadow-card-hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .popup-card {
+            position: absolute;
+            z-index: 50;
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            width: 22rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            visibility: hidden;
+        }
+
+        .popup-card.active {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+            animation: fadeIn 0.3s ease-in, slideUp 0.3s ease-out;
+        }
+
+        .popup-card::after {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: 30px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid white;
+        }
+
+        .popup-image {
+            max-height: 180px;
+            object-fit: contain;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+    <!-- Navigation -->
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+        <div id="navbar"class="mx-auto px-4 sm:px-6 lg:px-8">
+            <script src="navbar.js"></script>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <section class="search-gradient py-12 md:py-16">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Hero Section -->
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl sm:text-5xl font-bold gradient-text mb-4">Find Your Lost Documents</h1>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Search through thousands of found documents to recover what you've lost. Our secure platform helps reunite documents with their owners.</p>
+                </div>
+                
+                <!-- Search Card -->
+                <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-xl p-6 mb-10 search-card transition-all duration-300 hover:shadow-2xl">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="flex-grow relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-search text-gray-400"></i>
+                            </div>
+                            <input id="searchInput" type="text" placeholder="Enter name or type..." 
+                                   class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all">
+                        </div>
+                        <button id="searchBtn" class="bg-primary hover:bg-secondary text-white font-medium py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 whitespace-nowrap">
+                            <i class="fas fa-search mr-2"></i> Search
+                        </button>
+                    </div>
+                    
+                    <!-- Advanced Filters -->
+                    <div class="mt-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">FILTER BY</h3>
+                            <button class="text-sm text-primary hover:text-secondary font-medium">Advanced Filters</button>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-3">
+                            <div class="filter-pill bg-primary50 text-primary px-4 py-2 rounded-full text-sm font-medium cursor-pointer flex items-center">
+                                <i class="fas fa-id-card mr-2"></i> ID Cards
+                            </div>
+                            <div class="filter-pill bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-sm font-medium cursor-pointer flex items-center">
+                                <i class="fas fa-car mr-2"></i> Driver's License
+                            </div>
+                            <div class="filter-pill bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-sm font-medium cursor-pointer flex items-center">
+                                <i class="fas fa-passport mr-2"></i> Passports
+                            </div>
+                            <div class="filter-pill bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-sm font-medium cursor-pointer flex items-center">
+                                <i class="fas fa-credit-card mr-2"></i> Credit Cards
+                            </div>
+                            <div class="filter-pill bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-sm font-medium cursor-pointer flex items-center">
+                                <i class="fas fa-graduation-cap mr-2"></i> Certificates
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Results Section -->
+                <div id="resultsSection" class="max-w-6xl mx-auto mt-6 hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 id="resultsHeading" class="text-xl font-semibold text-gray-800">Matching Results</h2>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-gray-500">Sort by:</span>
+                            <select class="border-0 text-primary font-medium focus:ring-0">
+                                <option>Most Recent</option>
+                                <option>Closest Match</option>
+                                <option>Location</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Cards Container -->
+                    <div id="resultsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative"></div>
+                </div>
+                
+                <!-- Notification Section -->
+                <div class="mt-12 bg-primary50 border border-primary100 rounded-xl p-8 text-center">
+                    <div class="max-w-2xl mx-auto">
+                        <div class="animate-float inline-flex items-center justify-center bg-white p-4 rounded-full shadow-md mb-4">
+                            <i class="fas fa-bell text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Can't Find Your Document?</h3>
+                        <p class="text-gray-600 mb-6">
+                            We'll actively monitor our database and notify you immediately when a matching document is reported.
+                            Just provide your contact details and document information.
+                        </p>
+                        <button class="bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg transition-colors shadow-md inline-flex items-center space-x-2">
+                            <i class="fas fa-bell"></i>
+                            <span>Set Up Notification</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="flex justify-center mt-10">
+                    <nav class="flex items-center space-x-2">
+                        <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-50">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-white font-medium">1</button>
+                        <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">2</button>
+                        <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">3</button>
+                        <span class="px-2 text-gray-500">...</span>
+                        <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">8</button>
+                        <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-50">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-20 pb-10">
+        <div id="footer" class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <script src="footer.js"></script>
+        </div>
+    </footer>
+
+    <!-- Popup Card (Hidden by default) -->
+    <div id="popupCard" class="popup-card">
+        <div class="p-4">
+            <div class="flex justify-between items-start mb-2">
+                <h3 id="popupDocName" class="text-lg font-bold text-gray-800"></h3>
+                <button onclick="hidePopup()" class="text-gray-400 hover:text-red-500">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-2 text-sm">
+                <div class="flex items-center">
+                    <i class="fas fa-file-alt text-primary mr-2 w-4"></i>
+                    <span><strong>Type:</strong> <span id="popupDocType" class="text-gray-600"></span></span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-map-marker-alt text-primary mr-2 w-4"></i>
+                    <span><strong>Location:</strong> <span id="popupDocLocation" class="text-gray-600"></span></span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-calendar-alt text-primary mr-2 w-4"></i>
+                    <span><strong>Reported:</strong> <span id="popupDocDate" class="text-gray-600"></span></span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-user text-primary mr-2 w-4"></i>
+                    <span><strong>Reported by:</strong> <span id="popupDocReporter" class="text-gray-600"></span></span>
+                </div>
+            </div>
+            <div id="popupDocPhoto" class="mt-4 text-center"></div>
+            <div class="mt-4 flex justify-end">
+                <button class="text-primary hover:text-secondary font-medium text-sm flex items-center">
+                    <span>Claim Document</span>
+                    <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.getElementById('searchBtn').addEventListener('click', function () {
+        const query = document.getElementById('searchInput').value.trim();
+        const resultsSection = document.getElementById('resultsSection');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const resultsHeading = document.getElementById('resultsHeading');
+
+        if (!query) {
+            alert("Please enter a search term.");
+            return;
+        }
+
+        fetch(`http://localhost:5003/api/search?query=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('API response:', data);
+
+                resultsContainer.innerHTML = '';
+                resultsSection.classList.remove('hidden');
+
+                const documents = data.data;
+
+                if (Array.isArray(documents) && documents.length > 0) {
+                    resultsHeading.textContent = `Matching Results (${documents.length})`;
+
+                    documents.forEach(doc => {
+                        const card = document.createElement('div');
+                        card.className = "bg-white rounded-xl shadow-card overflow-hidden hover:shadow-card-hover transition-shadow duration-300 border border-gray-100 p-6 relative";
+
+                        card.innerHTML = `
+                            <div class="flex justify-between items-start">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary50 text-primary">
+                                    ${doc.doc_type ? doc.doc_type.toUpperCase() : 'Document'}
+                                </span>
+                                <span class="text-xs text-gray-500">${new Date(doc.created_at).toLocaleDateString()}</span>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-900 mt-3 mb-2">${doc.doc_name}</h3>
+                            <div class="space-y-2 mt-4">
+                                <div class="flex items-center text-gray-600">
+                                    <i class="fas fa-id-card text-primary w-5 mr-2"></i>
+                                    <span>NIC: ${doc.doc_id || 'N/A'}</span>
+                                </div>
+                                <div class="flex items-center text-gray-600">
+                                    <i class="fas fa-map-marker-alt text-primary w-5 mr-2"></i>
+                                    <span>Found in ${doc.location}</span>
+                                </div>
+                                <div class="flex items-center text-gray-600">
+                                    <i class="fas fa-user-circle text-primary w-5 mr-2"></i>
+                                    <span>Reported by: ${doc.anonymous === 'true' ? 'Anonymous' : doc.contact_name}</span>
+                                </div>
+                            </div>
+                            <div class="mt-6 flex space-x-3">
+                                <button class="flex-1 bg-primary hover:bg-secondary text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
+                                    <i class="fas fa-hand-holding-heart"></i>
+                                    <span>This is Mine</span>
+                                </button>
+                                <button class="details-btn flex-1 border border-primary text-primary hover:bg-primary50 py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>Details</span>
+                                </button>
+                            </div>
+                        `;
+
+                        // Attach doc data to Details button
+                        const detailsBtn = card.querySelector('.details-btn');
+                        detailsBtn.dataset.doc = JSON.stringify(doc);
+                        detailsBtn.addEventListener('click', function(e) {
+                            const doc = JSON.parse(this.dataset.doc);
+                            const rect = this.getBoundingClientRect();
+                            showPopup(doc, rect.left, rect.top);
+                            e.stopPropagation();
+                        });
+
+                        resultsContainer.appendChild(card);
+                    });
+
+                } else {
+                    resultsHeading.textContent = 'No Results Found';
+                    resultsContainer.innerHTML = `
+                        <div class="bg-white rounded-xl shadow-card overflow-hidden border-2 border-dashed border-gray-200 flex items-center justify-center p-8">
+                            <div class="text-center">
+                                <div class="mx-auto h-16 w-16 bg-primary50 rounded-full flex items-center justify-center text-primary mb-4">
+                                    <i class="fas fa-question text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-medium text-gray-900 mb-2">No More Results</h3>
+                                <p class="text-gray-500 mb-4">Try adjusting your search criteria to find more matches</p>
+                                <button class="text-primary font-medium hover:text-secondary flex items-center justify-center space-x-1 mx-auto">
+                                    <span>Refine Search</span>
+                                    <i class="fas fa-chevron-right text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                alert("There was an error fetching search results.");
+            });
+    });
+
+    // Show popup near the clicked button
+function showPopup(doc, xPos, yPos) {
+    const popup = document.getElementById('popupCard');
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    // Set content (unchanged)
+    document.getElementById('popupDocName').textContent = doc.doc_name || 'N/A';
+    document.getElementById('popupDocType').textContent = doc.doc_type || 'N/A';
+    document.getElementById('popupDocLocation').textContent = doc.location || 'N/A';
+    document.getElementById('popupDocDate').textContent = new Date(doc.created_at).toLocaleDateString() || 'N/A';
+    document.getElementById('popupDocReporter').textContent = doc.anonymous === 'true' ? 'Anonymous' : (doc.contact_name || 'N/A');
+    
+    // Set photo (unchanged)
+    const photoContainer = document.getElementById('popupDocPhoto');
+    if (doc.photo_url) {
+        photoContainer.innerHTML = `<img src="${doc.photo_url}" alt="Document photo" class="popup-image mx-auto">`;
+    } else {
+        photoContainer.innerHTML = '<p class="text-gray-400 text-sm">No photo available</p>';
+    }
+    
+    // Calculate smart positioning
+    let left = xPos;
+    let top = yPos;
+    
+    // Adjust for right edge of screen
+    if (left + 350 > viewportWidth) { // 350 is approx popup width
+        left = viewportWidth - 370; // Move left to stay on screen
+    }
+    
+    // Adjust for bottom edge of screen
+    if (top + 300 > viewportHeight) { // 300 is approx popup height
+        top = viewportHeight - 320; // Move up to stay on screen
+    }
+    
+    // Position the popup
+    popup.style.left = `${left}px`;
+    popup.style.top = `${top}px`;
+    
+    // Show the popup
+    popup.classList.add('active');
+    
+    // Close popup when clicking anywhere else
+    setTimeout(() => {
+        document.addEventListener('click', closePopupOutside);
+    }, 10);
+}
+
+// In your card creation code, update the click handler:
+detailsBtn.addEventListener('click', function(e) {
+    const doc = JSON.parse(this.dataset.doc);
+    const cardRect = this.closest('.document-card').getBoundingClientRect();
+    showPopup(doc, cardRect.left + 20, cardRect.top - 10);
+    e.stopPropagation();
+});
+    function hidePopup() {
+        const popup = document.getElementById('popupCard');
+        popup.classList.remove('active');
+        document.removeEventListener('click', closePopupOutside);
+    }
+
+    function closePopupOutside(e) {
+        const popup = document.getElementById('popupCard');
+        if (popup && !popup.contains(e.target)) {
+            hidePopup();
+        }
+    }
+
+    // Make functions available globally
+    window.showPopup = showPopup;
+    window.hidePopup = hidePopup;
+</script>
+</body>
+</html>

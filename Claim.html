@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Document | DocFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4361ee',
+                        secondary: '#3f37c9',
+                        accent: '#4cc9f0',
+                        dark: '#212529',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #4361ee, #4cc9f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .claim-gradient {
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(76, 201, 240, 0.1) 100%);
+        }
+        
+        .file-upload {
+            border: 2px dashed #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload:hover {
+            border-color: #4361ee;
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .image-section {
+            background-image: url('https://images.unsplash.com/photo-1581093450021-4a7360e9a3c8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .image-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.7) 0%, rgba(76, 201, 240, 0.7) 100%);
+        }
+        
+        .image-content {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+    <!-- Navigation -->
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+        <div id="navbar"class="mx-auto px-4 sm:px-6 lg:px-8">
+            <script src="navbar.js"></script>
+        </div>
+    </header>
+
+    <!-- Claim Section -->
+    <section class="claim-gradient py-12 md:py-24 flex-grow">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row rounded-xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl bg-white">
+                <!-- Form Section -->
+                <div class="lg:w-1/2 p-8 md:p-12">
+                    <div class="text-center mb-8">
+                        <div class="w-20 h-20 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-4 shadow-md animate-float">
+                            <i class="fas fa-file-alt text-white text-3xl"></i>
+                        </div>
+                        <h1 class="text-3xl font-bold gradient-text mb-2">Verify Ownership</h1>
+                        <p class="text-gray-600">Provide details to confirm this document belongs to you</p>
+                    </div>
+                    
+                    <!-- Document Info -->
+                    <div class="bg-primary-50 rounded-xl p-6 mb-6 border border-primary-100">
+                        <h3 class="text-lg font-semibold text-primary mb-4">Document Information</h3>
+                        <div class="space-y-3">
+                            <div class="flex">
+                                <span class="w-32 font-medium text-gray-700">Document Type:</span>
+                                <span class="text-gray-600">National ID Card</span>
+                            </div>
+                            <div class="flex">
+                                <span class="w-32 font-medium text-gray-700">Name:</span>
+                                <span class="text-gray-600">John Doe</span>
+                            </div>
+                            <div class="flex">
+                                <span class="w-32 font-medium text-gray-700">NIC Number:</span>
+                                <span class="text-gray-600">12345-6789012-3</span>
+                            </div>
+                            <div class="flex">
+                                <span class="w-32 font-medium text-gray-700">Found Location:</span>
+                                <span class="text-gray-600">Karachi, Gulshan</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form class="space-y-6">
+                        <!-- Reason for Claim -->
+                        <div>
+                            <label for="reason" class="block text-sm font-medium text-gray-700 mb-1">Reason for Claim</label>
+                            <textarea id="reason" class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all" rows="4" placeholder="Explain why you believe this is your document and how you can verify ownership" required></textarea>
+                        </div>
+                        
+                        <!-- NIC Copy Upload -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Upload NIC Copy (Optional)</label>
+                            <label class="file-upload flex flex-col items-center justify-center py-8 px-4 rounded-lg cursor-pointer">
+                                <i class="fas fa-cloud-upload-alt text-primary text-3xl mb-3"></i>
+                                <span class="text-gray-700 font-medium">Drag & drop or click to upload</span>
+                                <span class="text-sm text-gray-500 mt-1">Max. 5MB (JPG, PNG, PDF)</span>
+                                <input type="file" id="nicCopy" class="file-input" accept="image/*,.pdf">
+                            </label>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div>
+                            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all">
+                                Submit Claim
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Help Text -->
+                    <div class="mt-6 text-center">
+                        <p class="text-sm text-gray-600">
+                            Need help? <a href="#" class="font-medium text-primary hover:text-secondary">Contact our support team</a>
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Image Section -->
+                <div class="lg:w-1/2 image-section text-white p-12 flex items-center justify-center">
+                    <div class="image-content max-w-md">
+                        <h2 class="text-4xl font-bold mb-6">Secure Document Recovery</h2>
+                        <p class="text-lg mb-6">Our verification process ensures documents are returned to their rightful owners with complete security and privacy.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-white bg-opacity-20 rounded-full p-2 mr-4">
+                                    <i class="fas fa-shield-alt text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg">Secure Verification</h4>
+                                    <p class="text-white text-opacity-90">We carefully verify all claims to prevent fraud</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-white bg-opacity-20 rounded-full p-2 mr-4">
+                                    <i class="fas fa-lock text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg">Data Protection</h4>
+                                    <p class="text-white text-opacity-90">Your personal information is always encrypted</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-white bg-opacity-20 rounded-full p-2 mr-4">
+                                    <i class="fas fa-clock text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg">Quick Response</h4>
+                                    <p class="text-white text-opacity-90">Most claims are processed within 24 hours</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-20 pb-10">
+        <div id="footer" class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <script src="footer.js"></script>
+        </div>
+    </footer>
+    <script>
+        // Enhanced file upload display
+        const fileUpload = document.querySelector('.file-upload');
+        const fileInput = document.querySelector('#nicCopy');
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const fileSize = (this.files[0].size / 1024 / 1024).toFixed(2);
+                const fileType = this.files[0].type.split('/')[0] === 'image' ? 
+                    `<i class="fas fa-image text-primary text-3xl mb-3"></i>` : 
+                    `<i class="fas fa-file-pdf text-primary text-3xl mb-3"></i>`;
+                
+                fileUpload.innerHTML = `
+                    ${fileType}
+                    <span class="text-gray-700 font-medium truncate max-w-xs">${this.files[0].name}</span>
+                    <span class="text-sm text-gray-500 mt-1">${fileSize} MB</span>
+                    <span class="text-xs text-primary font-medium mt-2">Click to change</span>
+                `;
+            }
+        });
+        
+        // Add drag and drop functionality
+        fileUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUpload.classList.add('border-primary', 'bg-primary-50');
+        });
+        
+        fileUpload.addEventListener('dragleave', () => {
+            fileUpload.classList.remove('border-primary', 'bg-primary-50');
+        });
+        
+        fileUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUpload.classList.remove('border-primary', 'bg-primary-50');
+            fileInput.files = e.dataTransfer.files;
+            const event = new Event('change');
+            fileInput.dispatchEvent(event);
+        });
+    </script>
+</body>
+</html>
