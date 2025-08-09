@@ -92,7 +92,7 @@
     <!-- Navigation -->
     <header class="sticky top-0 z-50 bg-white shadow-sm">
         <div id="navbar"class="mx-auto px-4 sm:px-6 lg:px-8">
-            <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+           {% include 'navbar.html' %}
         </div>
     </header>
 
@@ -471,7 +471,7 @@
     <!-- Footer -->
     <footer class="bg-gray-900 text-white pt-20 pb-10">
         <div id="footer" class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+           {% include 'navbar.html' %}
         </div>
     </footer>
 
@@ -642,3 +642,4 @@
 </body>
 
 </html>
+
