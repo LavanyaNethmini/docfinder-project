@@ -115,10 +115,10 @@
                         DocFinder is the most trusted platform for reporting found documents and searching for lost ones. Join our community today!
                     </p>
                     <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                        <a href="report.html" class="bg-primary hover:bg-secondary text-white px-8 py-3 rounded-full font-semibold text-center transition-colors shadow-lg hover:shadow-xl flex items-center justify-center">
+                        <a href="{{ url_for('report') }}" class="bg-primary hover:bg-secondary text-white px-8 py-3 rounded-full font-semibold text-center transition-colors shadow-lg hover:shadow-xl flex items-center justify-center">
                             <i class="fas fa-upload mr-2"></i> Report Found
                         </a>
-                        <a href="Search.html" class="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-3 rounded-full font-semibold text-center transition-colors shadow-md hover:shadow-lg flex items-center justify-center">
+                        <a href="{{ url_for('search') }}" class="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-3 rounded-full font-semibold text-center transition-colors shadow-md hover:shadow-lg flex items-center justify-center">
                             <i class="fas fa-search mr-2"></i> Search Lost
                         </a>
                     </div>
@@ -642,5 +642,6 @@
 </body>
 
 </html>
+
 
 
