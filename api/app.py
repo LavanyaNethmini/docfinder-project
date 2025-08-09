@@ -63,6 +63,10 @@ def claim_details():
 @app.route('/register')
 def register():
     return render_template('Registration.html')
+    
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
 if __name__ == "__main__":
     import os
