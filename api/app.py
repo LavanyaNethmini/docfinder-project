@@ -60,6 +60,10 @@ def report_details():
 def claim_details():
     return render_template('claim-details.html')
 
+@app.route('/profile')
+def profile():
+    return render_template('Profile.html')
+
 
 
 
