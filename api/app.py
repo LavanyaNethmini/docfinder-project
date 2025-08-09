@@ -52,6 +52,10 @@ def login():
 def register():
     return render_template('Registration.html')
 
+@app.route('/report_details')
+def report_details():
+    return render_template('report_details.html')
+
 if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
