@@ -60,9 +60,7 @@ def report_details():
 def claim_details():
     return render_template('claim-details.html')
 
-@app.route('/register')
-def register():
-    return render_template('Registration.html')
+
     
 @app.route('/login')
 def login():
