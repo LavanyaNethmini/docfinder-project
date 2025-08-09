@@ -58,7 +58,7 @@ def report_details():
 
 @app.route('/claim_details')
 def claim_details():
-    return render_template(' claim-details.html')
+    return render_template('claim-details.html')
 
 if __name__ == "__main__":
     import os
