@@ -641,28 +641,55 @@
 
 
 
-const menuBtn = document.getElementById('menu-btn');
-const navLinks = document.getElementById('nav-links');
-
-menuBtn.addEventListener('click', () => {
-    if (navLinks.style.maxHeight === "0px" || navLinks.style.maxHeight === "") {
-        navLinks.style.maxHeight = navLinks.scrollHeight + "px";
-        navLinks.style.opacity = 1;
-        menuBtn.querySelector('i').classList.replace('fa-bars', 'fa-times');
-    } else {
-        navLinks.style.maxHeight = "0px";
-        navLinks.style.opacity = 0;
-        menuBtn.querySelector('i').classList.replace('fa-times', 'fa-bars');
-    }
-});
-
-
+// Wait for DOM to load
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuBtn = document.getElementById('menu-btn');
+            const navLinks = document.getElementById('nav-links');
+            
+            // Only add event listener if elements exist
+            if (menuBtn && navLinks) {
+                menuBtn.addEventListener('click', function() {
+                    const isOpen = navLinks.style.maxHeight && navLinks.style.maxHeight !== '0px';
+                    
+                    if (!isOpen) {
+                        navLinks.style.maxHeight = navLinks.scrollHeight + 'px';
+                        navLinks.style.opacity = '1';
+                        menuBtn.querySelector('i').classList.replace('fa-bars', 'fa-times');
+                    } else {
+                        navLinks.style.maxHeight = '0px';
+                        navLinks.style.opacity = '0';
+                        menuBtn.querySelector('i').classList.replace('fa-times', 'fa-bars');
+                    }
+                });
+                
+                // Close menu when clicking on a link (for mobile)
+                document.querySelectorAll('.nav-link, .nav-button').forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (window.innerWidth < 768) { // Adjust breakpoint as needed
+                            navLinks.style.maxHeight = '0px';
+                            navLinks.style.opacity = '0';
+                            menuBtn.querySelector('i').classList.replace('fa-times', 'fa-bars');
+                        }
+                    });
+                });
+            }
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 768) { // Desktop view
+                    navLinks.style.maxHeight = '';
+                    navLinks.style.opacity = '';
+                    menuBtn.querySelector('i').classList.replace('fa-times', 'fa-bars');
+                }
+            });
+        });
 
 
 </script>
 </body>
 
 </html>
+
 
 
 
