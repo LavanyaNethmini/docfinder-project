@@ -37,7 +37,7 @@ def search():
     return render_template('Search.html')
 
 @app.route('/search_details')
-def search():
+def search_details():
     return render_template('search-details.html')
 
 @app.route('/about')
