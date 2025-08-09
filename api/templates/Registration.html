@@ -253,7 +253,7 @@
         const password = document.querySelector('#password').value;
 
         try {
-            const response = await fetch("http://docfinder-project-production.up.railway.app/api/register", {
+            const response = await fetch("/api/register", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -334,4 +334,5 @@
 </body>
 
 </html>
+
 
