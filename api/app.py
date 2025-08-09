@@ -36,6 +36,22 @@ def report():
 def search():
     return render_template('Search.html')
 
+@app.route('/search_details')
+def search():
+    return render_template('search-details.html')
+
+@app.route('/about')
+def about():
+    return render_template('About.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/register')
+def register():
+    return render_template('Registration.html')
+
 if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
