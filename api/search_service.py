@@ -10,7 +10,7 @@ import os
 from werkzeug.utils import secure_filename
 import mysql.connector
 
-serach_bp = Blueprint('serach', __name__)
+search_bp = Blueprint('search', __name__)
 CORS(app)
 
 # Database connection
