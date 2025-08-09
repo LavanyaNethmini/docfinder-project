@@ -54,7 +54,7 @@ def register():
 
 @app.route('/report_details')
 def report_details():
-    return render_template('report_details.html')
+    return render_template('report-details.html')
 
 if __name__ == "__main__":
     import os
