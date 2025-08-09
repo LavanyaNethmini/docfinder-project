@@ -864,25 +864,17 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (menuBtn && navLinks) {
                 menuBtn.addEventListener('click', function() {
-                    const isOpen = navLinks.style.maxHeight && navLinks.style.maxHeight !== '0px';
-                    
-                    if (!isOpen) {
-                        navLinks.style.maxHeight = navLinks.scrollHeight + 'px';
-                        navLinks.style.opacity = '1';
-                        menuBtn.innerHTML = '<i class="fas fa-times"></i>';
-                    } else {
-                        navLinks.style.maxHeight = '0px';
-                        navLinks.style.opacity = '0';
-                        menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                    }
+                    navLinks.classList.toggle('active');
+                    menuBtn.innerHTML = navLinks.classList.contains('active') 
+                        ? '<i class="fas fa-times"></i>' 
+                        : '<i class="fas fa-bars"></i>';
                 });
                 
                 // Close menu when clicking on a link (mobile)
-                document.querySelectorAll('.nav-link, .nav-button').forEach(link => {
+                document.querySelectorAll('.nav-link, .nav-button, .action-btn').forEach(link => {
                     link.addEventListener('click', function() {
                         if (window.innerWidth < 768) {
-                            navLinks.style.maxHeight = '0px';
-                            navLinks.style.opacity = '0';
+                            navLinks.classList.remove('active');
                             menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                         }
                     });
@@ -892,18 +884,16 @@ document.addEventListener('DOMContentLoaded', function() {
             // Reset menu on desktop
             window.addEventListener('resize', function() {
                 if (window.innerWidth >= 768) {
-                    navLinks.style.maxHeight = '';
-                    navLinks.style.opacity = '';
+                    navLinks.classList.remove('active');
                     menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                 }
             });
         });
-
-
 </script>
 </body>
 
 </html>
+
 
 
 
