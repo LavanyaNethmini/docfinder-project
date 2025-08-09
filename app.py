@@ -6,6 +6,7 @@
 
 from flask import Flask
 from flask_cors import CORS
+import os
 
 from auth_api import users_bp
 from search_service_api import search_bp
@@ -13,6 +14,9 @@ from found_documents_api import documents_bp
 
 app = Flask(__name__)
 CORS(app)
+# Uploads folder config (centralized)
+app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(), 'uploads')
+
 
 app.register_blueprint(users_bp)
 app.register_blueprint(search_bp)
