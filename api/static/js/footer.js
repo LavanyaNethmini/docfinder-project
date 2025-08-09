@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
-    fetch("footer.html")
+    fetch("/static/footer.html")
         .then(res => res.text())
         .then(data => {
             document.getElementById("footer").innerHTML = data;
         });
+
 });
