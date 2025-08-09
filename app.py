@@ -23,9 +23,10 @@ app.register_blueprint(users_bp)
 app.register_blueprint(search_bp)
 app.register_blueprint(documents_bp)
 
+
 @app.route('/')
 def home():
-    return jsonify({"message": "DocFinder API is running. Use the appropriate /api/ endpoints."})
+    return render_template('Home.html')
 
 if __name__ == "__main__":
     import os
