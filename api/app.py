@@ -28,6 +28,14 @@ app.register_blueprint(documents_bp)
 def home():
     return render_template('home.html')
 
+@app.route('/report')
+def report():
+    return render_template('report.html')
+
+@app.route('/search')
+def search():
+    return render_template('search.html')
+
 if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
