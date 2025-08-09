@@ -10,13 +10,13 @@ get_ipython().system('pip install flask')
 # In[2]:
 
 
-from flask import Flask, request, jsonify
+from flask import Blueprint, Flask, request, jsonify
 from flask_cors import CORS
 import mysql.connector
 import jwt, datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
-app = Flask(__name__)
+users_bp = Blueprint('users', __name__)
 CORS(app)
 app.config['SECRET_KEY'] = 'your-secret-key'
 
