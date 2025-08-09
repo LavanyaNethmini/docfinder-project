@@ -643,19 +643,21 @@
         });
     });
 
-document.getElementById('menu-btn').addEventListener('click', function() {
-  const navLinks = document.getElementById('nav-links');
+const menuBtn = document.getElementById('menu-btn');
+const navLinks = document.getElementById('nav-links');
 
+menuBtn.addEventListener('click', () => {
   if (navLinks.style.maxHeight === "0px" || navLinks.style.maxHeight === "") {
-    // open it
     navLinks.style.maxHeight = navLinks.scrollHeight + "px";
     navLinks.style.opacity = 1;
+    menuBtn.querySelector('i').classList.add('rotate-90'); // requires Tailwind rotate classes or define in CSS
   } else {
-    // close it
     navLinks.style.maxHeight = "0px";
     navLinks.style.opacity = 0;
+    menuBtn.querySelector('i').classList.remove('rotate-90');
   }
 });
+
 
 
 
@@ -663,6 +665,7 @@ document.getElementById('menu-btn').addEventListener('click', function() {
 </body>
 
 </html>
+
 
 
 
