@@ -5,6 +5,7 @@
 
 
 from flask import Blueprint, Flask, request, jsonify
+from flask import current_app
 from flask_cors import CORS
 import os
 from werkzeug.utils import secure_filename
@@ -81,10 +82,10 @@ def report_found():
 
         if photo and photo.filename:
             filename = secure_filename(photo.filename)
-            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            photo_filename = filename 
-            photo_uploaded = True
+            upload_folder = current_app.config['UPLOAD_FOLDER']
+            image_path = os.path.join(upload_folder, filename)
+            photo.save(image_path)
+            photo_filename = filename
 
         # Database operation
         conn = get_connection()
