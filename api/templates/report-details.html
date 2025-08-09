@@ -522,10 +522,10 @@
                 <h2 class="text-3xl font-bold text-white mb-4">Ready to Help Someone Today?</h2>
                 <p class="text-xl text-blue-100 mb-8">Reporting a found document takes just a few minutes but can make a huge difference to someone who lost it.</p>
                 <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <a href="report.html" class="bg-white text-primary px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg flex items-center justify-center">
+                    <a href="{{ url_for('report') }}" class="bg-white text-primary px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg flex items-center justify-center">
                         <i class="fas fa-upload mr-2"></i> Report Found Document
                     </a>
-                    <a href="Search.html" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-primary transition-colors flex items-center justify-center">
+                    <a href="{{ url_for('search') }}" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-primary transition-colors flex items-center justify-center">
                         <i class="fas fa-search mr-2"></i> Search Lost Document
                     </a>
                 </div>
@@ -596,5 +596,6 @@
 </body>
 
 </html>
+
 
 
