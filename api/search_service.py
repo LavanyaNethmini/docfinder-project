@@ -21,7 +21,7 @@ def get_connection():
         user="avnadmin",
         password="AVNS_RQUukVzxF3liehSwMQS",
         database="defaultdb",  # or lost_found_db if that’s your DB name on Aiven
-        ssl_ca="C:/wamp64/www/lost-found/api/ca.pem",  # path to Aiven's CA certificate (for SSL)
+        ssl_ca="./api/ca.pem",  # path to Aiven's CA certificate (for SSL)
         ssl_verify_cert=True
     )
 
