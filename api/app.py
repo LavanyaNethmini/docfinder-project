@@ -8,9 +8,9 @@ from flask import Flask
 from flask_cors import CORS
 import os
 
-from lost_auth import users_bp
-from search_service import search_bp
-from found_documents import documents_bp
+from api.lost_auth import users_bp
+from api.search_service import search_bp
+from api.found_documents import documents_bp
 
 app = Flask(__name__)
 CORS(app)
