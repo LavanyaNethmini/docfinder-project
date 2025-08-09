@@ -16,6 +16,7 @@ app = Flask(__name__)
 CORS(app)
 # Uploads folder config (centralized)
 app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(), 'uploads')
+app.config['SECRET_KEY'] = 'your-secret-key'
 
 
 app.register_blueprint(users_bp)
