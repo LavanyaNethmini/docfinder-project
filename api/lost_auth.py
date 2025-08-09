@@ -17,7 +17,7 @@ import jwt, datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
 users_bp = Blueprint('users', __name__)
-CORS(app)
+
 app.config['SECRET_KEY'] = 'your-secret-key'
 
 # Database connection
@@ -45,7 +45,7 @@ except Exception as e:
 
 
 # Register Route
-@app.route('/api/register', methods=['POST'])
+@users_bp.route('/api/register', methods=['POST'])
 def register():
     data = request.get_json()
     name = data.get('name')
@@ -73,7 +73,7 @@ def register():
 # In[4]:
 
 
-@app.route('/api/login', methods=['POST'])
+@users_bp.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
     email = data.get('email')
