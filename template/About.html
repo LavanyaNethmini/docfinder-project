@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About & Contact | DocFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4361ee',
+                        secondary: '#3a0ca3',
+                        accent: '#4cc9f0',
+                        dark: '#212529',
+                        gray: {
+                            100: '#f8f9fa',
+                            200: '#e9ecef',
+                            300: '#dee2e6',
+                            400: '#ced4da',
+                            500: '#adb5bd',
+                            600: '#6c757d',
+                            700: '#495057',
+                            800: '#343a40',
+                            900: '#212529',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        .text-gradient {
+            background: linear-gradient(90deg, #4361ee, #3a0ca3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .bg-gradient {
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(76, 201, 240, 0.1) 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .icon-circle {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover .icon-circle {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, #4361ee, #4cc9f0);
+            color: white;
+        }
+        
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: linear-gradient(to bottom, #4361ee, #4cc9f0);
+            transition: height 0.6s ease;
+        }
+        
+        .stat-card:hover::before {
+            height: 100%;
+        }
+        
+        .input-focus:focus-within {
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-3px);
+        }
+        
+        .contact-info-item {
+            transition: all 0.3s ease;
+        }
+        
+        .contact-info-item:hover {
+            transform: translateX(5px);
+        }
+
+        /* Add these to your existing style tag */
+        .animate-gradient-x {
+            background-size: 300% 300%;
+            animation: gradient-x 8s ease infinite;
+        }
+
+        @keyframes gradient-x {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+
+        /* Typing animation */
+        .typed-text {
+            position: relative;
+        }
+
+        .typed-text::after {
+            content: "|";
+            position: absolute;
+            right: -5px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Blob animation */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+
+        .animation-delay-3000 {
+            animation-delay: 3s;
+        }
+
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+    <!-- Navigation -->
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+        <div id="navbar" class="mx-auto px-4 sm:px-6 lg:px-8">
+            <script src="navbar.js"></script>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- Hero Section with Background Image -->
+<!-- Hero Section with Adjusted Opacity -->
+<section class="relative py-20 md:py-28 overflow-hidden bg-cover bg-center" style="background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.92)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');">
+    <!-- Semi-transparent overlay with adjusted opacity -->
+    <div class="absolute inset-0 bg-white/40 backdrop-blur-sm"></div>
+    
+    <!-- Animated background elements with reduced opacity -->
+    <div class="absolute inset-0 opacity-5">
+        <div class="absolute top-0 left-1/4 w-72 h-72 bg-primary rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob"></div>
+        <div class="absolute top-0 right-1/4 w-72 h-72 bg-accent rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-0 left-1/2 w-72 h-72 bg-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob animation-delay-4000"></div>
+    </div>
+    
+    <!-- Floating document illustration with adjusted opacity -->
+    <div class="absolute left-10 top-1/4 opacity-15 md:opacity-20 animate-float">
+        <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10 9H9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </div>
+    
+    <div class="absolute right-10 bottom-1/4 opacity-15 md:opacity-20 animate-float animation-delay-3000">
+        <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 21V5C19 4.46957 18.7893 3.96086 18.4142 3.58579C18.0391 3.21071 17.5304 3 17 3H7C6.46957 3 5.96086 3.21071 5.58579 3.58579C5.21071 3.96086 5 4.46957 5 5V21M19 21L21 21M19 21H14M5 21L3 21M5 21H10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 7H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 11H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 15H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <!-- Main heading with adjusted contrast -->
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in">
+            <span class="text-gradient bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent animate-gradient-x">
+                About DocFinder
+            </span>
+        </h1>
+        
+        <!-- Subheading with darker text for better readability -->
+        <p class="text-lg md:text-xl text-gray-800 max-w-3xl mx-auto leading-relaxed mb-8">
+            <span class="typed-text" data-typed-items="Reuniting lost documents with their owners, Connecting finders with owners, Leveraging community power, Using cutting-edge technology"></span>
+        </p>
+        
+        <!-- Animated CTA buttons -->
+        <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+            <a href="#contact" class="px-8 py-3 bg-primary hover:bg-secondary text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <i class="fas fa-envelope mr-2"></i> Contact Us
+            </a>
+            <a href="#how-it-works" class="px-8 py-3 bg-white text-primary border border-primary font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                <i class="fas fa-play-circle mr-2"></i> How It Works
+            </a>
+        </div>
+        
+        <!-- Trust indicators with increased opacity -->
+        <div class="mt-12 flex flex-wrap justify-center items-center gap-6 text-gray-700">
+            <div class="flex items-center bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm">
+                <i class="fas fa-shield-alt text-primary mr-2"></i>
+                <span>Secure & Private</span>
+            </div>
+            <div class="flex items-center bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm">
+                <i class="fas fa-heart text-primary mr-2"></i>
+                <span>Community-Powered</span>
+            </div>
+            <div class="flex items-center bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm">
+                <i class="fas fa-bolt text-primary mr-2"></i>
+                <span>Quick Results</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Animated scroll indicator with better contrast -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <a href="#about" class="text-gray-700 hover:text-primary transition-colors bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-sm">
+            <i class="fas fa-chevron-down text-2xl"></i>
+        </a>
+    </div>
+</section>
+
+        <!-- About Section -->
+        <section class="py-16 md:py-20">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-2 gap-8 lg:gap-12 mb-16">
+                    <!-- Mission Card -->
+                    <div class="bg-white rounded-xl shadow-md p-8 card-hover">
+                        <div class="flex items-center mb-6">
+                            <div class="icon-circle bg-primary/10 p-4 rounded-full mr-4">
+                                <i class="fas fa-bullseye text-primary text-xl"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800">Our Mission</h2>
+                        </div>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            Every year, millions of important documents are lost worldwide, causing stress and inconvenience. DocFinder was created to solve this problem by connecting people who find documents with those who lost them.
+                        </p>
+                        <p class="text-gray-600 leading-relaxed">
+                            We believe in the power of community and technology to make the world a better place, one returned document at a time.
+                        </p>
+                    </div>
+
+                    <!-- Team Card -->
+                    <div class="bg-white rounded-xl shadow-md p-8 card-hover">
+                        <div class="flex items-center mb-6">
+                            <div class="icon-circle bg-primary/10 p-4 rounded-full mr-4">
+                                <i class="fas fa-users text-primary text-xl"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800">Our Team</h2>
+                        </div>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            Founded by a group of university students who kept losing their IDs, DocFinder is now maintained by a dedicated team of developers and community managers.
+                        </p>
+                        <p class="text-gray-600 leading-relaxed">
+                            We're passionate about creating solutions that make a real difference in people's lives through simple, effective technology.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Stats Section -->
+                <div class="bg-white rounded-xl shadow-md p-8 md:p-10 mb-16">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">By The Numbers</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center">
+                        <div class="stat-card bg-gray-50 rounded-lg p-6">
+                            <div class="text-4xl font-bold text-primary mb-2">10K+</div>
+                            <div class="text-gray-600 font-medium">Documents Reunited</div>
+                        </div>
+                        <div class="stat-card bg-gray-50 rounded-lg p-6">
+                            <div class="text-4xl font-bold text-primary mb-2">5K+</div>
+                            <div class="text-gray-600 font-medium">Happy Users</div>
+                        </div>
+                        <div class="stat-card bg-gray-50 rounded-lg p-6">
+                            <div class="text-4xl font-bold text-primary mb-2">50+</div>
+                            <div class="text-gray-600 font-medium">Cities Covered</div>
+                        </div>
+                        <div class="stat-card bg-gray-50 rounded-lg p-6">
+                            <div class="text-4xl font-bold text-primary mb-2">24/7</div>
+                            <div class="text-gray-600 font-medium">Support Available</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How It Works -->
+                <div id="how-it-works" class="mb-16">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">How DocFinder Works</h2>
+                    <p class="text-gray-600 text-center max-w-2xl mx-auto mb-12 leading-relaxed">
+                        Our simple three-step process makes it easy to reunite lost documents with their owners while maintaining privacy and security.
+                    </p>
+                    <div class="grid md:grid-cols-3 gap-8 md:gap-10">
+                        <div class="text-center bg-white p-8 rounded-xl shadow-md card-hover">
+                            <div class="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 icon-circle">
+                                <i class="fas fa-search text-primary text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">1. Report or Search</h3>
+                            <p class="text-gray-600 leading-relaxed">Report a found document or search for your lost one in our secure database.</p>
+                        </div>
+                        <div class="text-center bg-white p-8 rounded-xl shadow-md card-hover">
+                            <div class="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 icon-circle">
+                                <i class="fas fa-link text-primary text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">2. Secure Matching</h3>
+                            <p class="text-gray-600 leading-relaxed">Our system verifies ownership while protecting personal information.</p>
+                        </div>
+                        <div class="text-center bg-white p-8 rounded-xl shadow-md card-hover">
+                            <div class="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 icon-circle">
+                                <i class="fas fa-handshake text-primary text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">3. Reunite Safely</h3>
+                            <p class="text-gray-600 leading-relaxed">Arrange a safe return through our verified contact system.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="py-16 bg-gray-100">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">What Our Users Say</h2>
+                <p class="text-gray-600 text-center max-w-2xl mx-auto mb-12 leading-relaxed">
+                    Don't just take our word for it. Here's what people are saying about DocFinder.
+                </p>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-xl shadow-md">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                                <i class="fas fa-user text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Ravi Perera</h4>
+                                <p class="text-gray-500 text-sm">Colombo</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic">"Found my lost passport within hours thanks to DocFinder. The process was so simple and secure!"</p>
+                        <div class="mt-4 text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-8 rounded-xl shadow-md">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                                <i class="fas fa-user text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Nimali Fernando</h4>
+                                <p class="text-gray-500 text-sm">Kandy</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic">"I found a wallet with important documents and was able to return it the same day. The owner was so grateful!"</p>
+                        <div class="mt-4 text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-8 rounded-xl shadow-md">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                                <i class="fas fa-user text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">David Silva</h4>
+                                <p class="text-gray-500 text-sm">Tourist from Portugal</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic">"As a foreigner, losing my ID in Sri Lanka was terrifying. DocFinder saved my trip by connecting me with the kind person who found it."</p>
+                        <div class="mt-4 text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-16 md:py-20 bg-gradient">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="md:flex">
+                        <!-- Contact Info -->
+                        <div class="md:w-2/5 bg-primary text-white p-10">
+                            <h2 class="text-3xl font-bold mb-8">Get in Touch</h2>
+                            <div class="space-y-8">
+                                <div class="contact-info-item flex items-start">
+                                    <div class="bg-white/20 p-3 rounded-full mr-4 flex-shrink-0">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-lg mb-1">Our Location</h3>
+                                        <p class="text-white/80">123 Colombo 3, Sri Lanka</p>
+                                    </div>
+                                </div>
+                                <div class="contact-info-item flex items-start">
+                                    <div class="bg-white/20 p-3 rounded-full mr-4 flex-shrink-0">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-lg mb-1">Email Us</h3>
+                                        <p class="text-white/80">contact@docfinder.com</p>
+                                    </div>
+                                </div>
+                                <div class="contact-info-item flex items-start">
+                                    <div class="bg-white/20 p-3 rounded-full mr-4 flex-shrink-0">
+                                        <i class="fas fa-phone-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-lg mb-1">Call Us</h3>
+                                        <p class="text-white/80">+94 112 769 456</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-12">
+                                <h3 class="font-semibold text-lg mb-6">Follow Us</h3>
+                                <div class="flex space-x-4">
+                                    <a href="#" class="social-icon bg-white/20 p-3 rounded-full hover:bg-white/30 transition-colors">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="social-icon bg-white/20 p-3 rounded-full hover:bg-white/30 transition-colors">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="social-icon bg-white/20 p-3 rounded-full hover:bg-white/30 transition-colors">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="#" class="social-icon bg-white/20 p-3 rounded-full hover:bg-white/30 transition-colors">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Contact Form -->
+                        <div class="md:w-3/5 p-10">
+                            <h2 class="text-3xl font-bold text-gray-800 mb-2">Contact Us</h2>
+                            <p class="text-gray-600 mb-8 leading-relaxed">Have questions or suggestions? We'd love to hear from you! Fill out the form below and we'll get back to you within 24 hours.</p>
+                            
+                            <form class="space-y-6">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div class="input-focus">
+                                        <label for="name" class="block text-gray-700 font-medium mb-2">Your Name</label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <i class="fas fa-user text-gray-400"></i>
+                                            </div>
+                                            <input type="text" id="name" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all" placeholder="Enter your name" required>
+                                        </div>
+                                    </div>
+                                    <div class="input-focus">
+                                        <label for="email" class="block text-gray-700 font-medium mb-2">Email Address</label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <i class="fas fa-envelope text-gray-400"></i>
+                                            </div>
+                                            <input type="email" id="email" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all" placeholder="Enter your email" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-focus">
+                                    <label for="subject" class="block text-gray-700 font-medium mb-2">Subject</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-tag text-gray-400"></i>
+                                        </div>
+                                        <input type="text" id="subject" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all" placeholder="What's this about?" required>
+                                    </div>
+                                </div>
+                                <div class="input-focus">
+                                    <label for="message" class="block text-gray-700 font-medium mb-2">Message</label>
+                                    <div class="relative">
+                                        <div class="absolute top-3 left-3">
+                                            <i class="fas fa-edit text-gray-400"></i>
+                                        </div>
+                                        <textarea id="message" rows="5" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all" placeholder="Type your message here..." required></textarea>
+                                    </div>
+                                </div>
+                                <div class="pt-2">
+                                    <button type="submit" class="w-full flex justify-center items-center py-4 px-6 border border-transparent rounded-lg shadow-sm text-md font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all">
+                                        <i class="fas fa-paper-plane mr-2"></i> Send Message
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-20 pb-10">
+        <div id="footer" class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <script src="footer.js"></script>
+        </div>
+    </footer>
+
+    <script>
+        
+    // Typing animation script (add before closing body tag)
+document.addEventListener('DOMContentLoaded', function(){
+    // Typing animation
+    if(document.querySelector('.typed-text')) {
+        const typedTextSpan = document.querySelector('.typed-text');
+        const textArray = JSON.parse(typedTextSpan.getAttribute('data-typed-items'));
+        const typingDelay = 100;
+        const erasingDelay = 50;
+        const newTextDelay = 2000;
+        let textArrayIndex = 0;
+        let charIndex = 0;
+        
+        function type() {
+            if (charIndex < textArray[textArrayIndex].length) {
+                typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, typingDelay);
+            } 
+            else {
+                setTimeout(erase, newTextDelay);
+            }
+        }
+        
+        function erase() {
+            if (charIndex > 0) {
+                typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex-1);
+                charIndex--;
+                setTimeout(erase, erasingDelay);
+            } 
+            else {
+                textArrayIndex++;
+                if(textArrayIndex>=textArray.length) textArrayIndex=0;
+                setTimeout(type, typingDelay + 1100);
+            }
+        }
+        
+        setTimeout(type, newTextDelay + 250);
+    }
+});
+    </script>
+</body>
+</html>
