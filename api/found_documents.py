@@ -4,13 +4,13 @@
 # In[1]:
 
 
-from flask import Flask, request, jsonify
+from flask import Blueprint, Flask, request, jsonify
 from flask_cors import CORS
 import os
 from werkzeug.utils import secure_filename
 import mysql.connector
 
-app = Flask(__name__)
+documents_bp = Blueprint('documents', __name__)
 CORS(app)
 
 # Configuration
