@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 import mysql.connector
 
 documents_bp = Blueprint('documents', __name__)
-CORS(app)
+
 
 # Configuration
 UPLOAD_FOLDER = r'C:\wamp64\www\lost-found\uploads'
@@ -52,7 +52,7 @@ except Exception as e:
 # In[2]:
 
 
-@app.route('/api/report_found', methods=['POST'])
+@documents_bp.route('/api/report_found', methods=['POST'])
 def report_found():
     conn = None
     cursor = None
