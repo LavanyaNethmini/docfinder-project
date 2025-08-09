@@ -65,6 +65,13 @@
             z-index: 0;
             background-color: #1a202c; /* Dark background */
         }
+
+        #nav-links {
+          transition-property: max-height, opacity;
+          transition-duration: 300ms;
+          transition-timing-function: ease-in-out;
+        }
+
         
         /* Color overlay/mask - now darker */
         .hero-overlay {
@@ -639,22 +646,24 @@
 document.getElementById('menu-btn').addEventListener('click', function() {
   const navLinks = document.getElementById('nav-links');
 
-  if (navLinks.style.maxHeight) {
-    // Currently open: close it
-    navLinks.style.maxHeight = null;
-    navLinks.style.opacity = 0;
-  } else {
-    // Currently closed: open it
+  if (navLinks.style.maxHeight === "0px" || navLinks.style.maxHeight === "") {
+    // open it
     navLinks.style.maxHeight = navLinks.scrollHeight + "px";
     navLinks.style.opacity = 1;
+  } else {
+    // close it
+    navLinks.style.maxHeight = "0px";
+    navLinks.style.opacity = 0;
   }
 });
+
 
 
 </script>
 </body>
 
 </html>
+
 
 
 
