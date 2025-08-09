@@ -16,11 +16,13 @@ CORS(app)
 # Database connection
 def get_connection():
     return mysql.connector.connect(
-        host="localhost",
-        port=3308,
-        user="root",
-        password="",
-        database="lost_found_db"
+        host="docfinder-docfinder.d.aivencloud.com",
+        port=24448,
+        user="avnadmin",
+        password="AVNS_RQUukVzxF3liehSwMQS",
+        database="defaultdb",  # or lost_found_db if that’s your DB name on Aiven
+        ssl_ca="C:/wamp64/www/lost-found/api/ca.pem",  # path to Aiven's CA certificate (for SSL)
+        ssl_verify_cert=True
     )
 
 # Test connection
