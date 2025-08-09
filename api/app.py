@@ -60,6 +60,10 @@ def report_details():
 def claim_details():
     return render_template('claim-details.html')
 
+@app.route('/register')
+def register():
+    return render_template('Registration.html')
+
 if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
