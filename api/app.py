@@ -6,6 +6,7 @@
 
 from flask import Flask
 from flask_cors import CORS
+from flask import render_template
 import os
 
 from api.lost_auth import users_bp
