@@ -8,7 +8,7 @@ from flask import Flask
 from flask_cors import CORS
 import os
 
-from auth_api import users_bp
+from lost_auth_api import users_bp
 from search_service_api import search_bp
 from found_documents_api import documents_bp
 
