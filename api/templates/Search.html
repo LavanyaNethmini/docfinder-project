@@ -517,7 +517,7 @@
             return;
         }
 
-        fetch(`http://localhost:5003/api/search?query=${encodeURIComponent(query)}`)
+        fetch(`api/search?query=${encodeURIComponent(query)}`)
             .then(response => response.json())
             .then(data => {
                 console.log('API response:', data);
@@ -712,4 +712,5 @@ detailsBtn.addEventListener('click', function(e) {
 </body>
 
 </html>
+
 
