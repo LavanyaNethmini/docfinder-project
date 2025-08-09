@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Found Document | DocFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4361ee',
+                        secondary: '#3f37c9',
+                        accent: '#4cc9f0',
+                        dark: '#212529',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #4361ee, #4cc9f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .report-gradient {
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(76, 201, 240, 0.1) 100%);
+        }
+        
+        .file-upload {
+            border: 2px dashed #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload:hover {
+            border-color: #4361ee;
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .illustration {
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(76, 201, 240, 0.1) 100%);
+        }
+        
+        @media (max-width: 768px) {
+            .two-column-layout {
+                flex-direction: column;
+            }
+            .illustration {
+                display: none;
+            }
+        }
+        
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+    <!-- Report Section -->
+    <section class="report-gradient py-12 md:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-center">
+                <div class="w-full max-w-4xl">
+                    <div class="bg-white rounded-xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl flex two-column-layout">
+                        <!-- Illustration Column -->
+                        <div class="hidden md:flex md:w-1/2 illustration items-center justify-center p-8">
+                            <div class="text-center">
+                                <div class="w-40 h-40 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-6 shadow-md animate-float">
+                                    <i class="fas fa-file-alt text-white text-5xl"></i>
+                                </div>
+                                <h1 class="text-4xl font-bold gradient-text mb-4" id="step-title">Document Details</h1>
+                                <p class="text-gray-600 text-lg mb-6" id="step-description">Tell us about the document you found</p>
+                                <div class="bg-white/80 rounded-lg p-4 max-w-xs mx-auto">
+                                    <div class="flex items-start mb-3">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <i class="fas fa-check-circle text-primary"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-sm text-gray-700">Secure and confidential process</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start mb-3">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <i class="fas fa-check-circle text-primary"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-sm text-gray-700">Quick owner notification</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <i class="fas fa-check-circle text-primary"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-sm text-gray-700">Anonymous option available</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Form Column -->
+                        <div class="w-full md:w-1/2 p-8">
+                            <!-- Progress Steps -->
+                            <div class="flex justify-between items-center mb-8">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm mb-1 step-indicator" data-step="1">1</div>
+                                    <span class="text-xs font-medium text-primary">Document Info</span>
+                                </div>
+                                <div class="h-1 flex-1 bg-gray-200 mx-2">
+                                    <div class="h-full bg-primary transition-all duration-300" id="progress-bar" style="width: 0%"></div>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-sm mb-1 step-indicator" data-step="2">2</div>
+                                    <span class="text-xs font-medium text-gray-500">Contact Info</span>
+                                </div>
+                            </div>
+                            
+                            <div class="md:hidden text-center mb-8">
+                                <h1 class="text-3xl font-bold gradient-text mb-2" id="mobile-step-title">Document Details</h1>
+                                <p class="text-gray-600" id="mobile-step-description">Tell us about the document you found</p>
+                            </div>
+                            
+                            <!-- Single Form Wrapping Both Steps -->
+                            <form id="reportForm" class="space-y-6" enctype="multipart/form-data">
+                                <!-- Step 1: Document Information -->
+                                <div class="form-step active" id="step-1">
+                                    <!-- Name on Document Field -->
+                                    <div>
+                                        <label for="docName" class="block text-sm font-medium text-gray-700 mb-1">Name on Document</label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <i class="fas fa-user text-gray-400"></i>
+                                            </div>
+                                            <input type="text" id="docName" name="doc_name" class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all" placeholder="Enter the name on the document" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Document Type Field -->
+                                    <div>
+                                        <label for="docType" class="block text-sm font-medium text-gray-700 mb-1">Document Type</label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <i class="fas fa-file text-gray-400"></i>
+                                            </div>
+                                            <select id="docType" name="doc_type" class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all appearance-none" required>
+                                                <option value="">Select document type</option>
+                                                <option value="nic">National ID Card</option>
+                                                <option value="license">Driver's License</option>
+                                                <option value="passport">Passport</option>
+                                                <option value="credit-card">Credit/Debit Card</option>
+                                                <option value="certificate">Academic Certificate</option>
+                                                <option value="other">Other Document</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Location Found Field -->
+                                    <div>
+                                        <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Location Found</label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <i class="fas fa-map-marker-alt text-gray-400"></i>
+                                            </div>
+                                            <input type="text" id="location" name="location" class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all" placeholder="Where did you find this document?" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Document Photo Field -->
+                                    <div class="mb-3">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Document Photo (Optional)</label>
+                                        <label class="file-upload flex flex-col items-center justify-center py-8 px-4 rounded-lg cursor-pointer">
+                                            <i class="fas fa-cloud-upload-alt text-primary text-3xl mb-3"></i>
+                                            <span class="text-gray-700 font-medium">Drag & drop or click to upload</span>
+                                            <span class="text-sm text-gray-500 mt-1">Max. 5MB (JPG, PNG, PDF)</span>
+                                            <input type="file" id="docPhoto" name="photo" class="file-input" accept="image/*,.pdf">
+                                        </label>
+                                    </div>
+                                    
+                                    <!-- Next Button -->
+                                    <div>
+                                        <button type="button" id="next-btn" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all">
+                                            Continue to Contact Info <i class="fas fa-arrow-right ml-2"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Step 2: Contact Information -->
+                                <div class="form-step" id="step-2">
+                                    <!-- Contact Info Header -->
+                                    <div class="text-center mb-6">
+                                        <h3 class="text-lg font-medium text-gray-900">How should we contact you?</h3>
+                                        <p class="text-sm text-gray-500 mt-1">This information will be shared with the document owner</p>
+                                    </div>
+                                    
+                                    <!-- Name Field -->
+                                    <div>
+                                        <label for="contactName" class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <i class="fas fa-user text-gray-400"></i>
+                                            </div>
+                                            <input type="text" id="contactName" name="contact_name" class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all" placeholder="Your full name">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Email Field -->
+                                    <div>
+                                        <label for="contactEmail" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <i class="fas fa-envelope text-gray-400"></i>
+                                            </div>
+                                            <input type="email" id="contactEmail" name="contact_email" class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all" placeholder="Your email address">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Phone Field -->
+                                    <div>
+                                        <label for="contactPhone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number (Optional)</label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <i class="fas fa-phone text-gray-400"></i>
+                                            </div>
+                                            <input type="tel" id="contactPhone" name="contact_phone" class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all" placeholder="Your phone number">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Preferred Contact Method -->
+                                    <div class="mb-3">
+                                        <label class="block text-sm font-medium text-gray-700 mb-3">Preferred Contact Method</label>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <input id="contact-email" name="preferred_method" type="radio" value="email" class="h-4 w-4 text-primary focus:ring-primary border-gray-300" checked>
+                                                <label for="contact-email" class="ml-3 block text-sm font-medium text-gray-700">Email</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input id="contact-phone" name="preferred_method" type="radio" value="phone" class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                                <label for="contact-phone" class="ml-3 block text-sm font-medium text-gray-700">Phone Call</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input id="contact-sms" name="preferred_method" type="radio" value="sms" class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                                <label for="contact-sms" class="ml-3 block text-sm font-medium text-gray-700">Text Message</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Anonymous Checkbox -->
+                                    <div class="flex items-start pt-2">
+                                        <div class="flex items-center h-5">
+                                            <input id="anonymous" name="anonymous" type="checkbox" class="focus:ring-primary h-4 w-4 text-primary border-gray-300 rounded">
+                                        </div>
+                                        <div class="ml-3 text-sm">
+                                            <label for="anonymous" class="font-medium text-gray-700">Report anonymously</label>
+                                            <p class="text-gray-500 mt-1">Your contact information won't be shared with the owner</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Form Navigation -->
+                                    <div class="flex justify-between pt-4">
+                                        <button type="button" id="back-btn" class="py-2.5 px-6 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all">
+                                            <i class="fas fa-arrow-left mr-2"></i> Back
+                                        </button>
+                                        <button type="submit" id="submit-btn" class="py-2.5 px-6 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all">
+                                            Submit Report
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            
+                            <!-- Login Link -->
+                            <div class="mt-6 text-center">
+                                <p class="text-sm text-gray-600">
+                                    Want to search for a lost document? 
+                                    <a href="#" class="font-medium text-primary hover:text-secondary">
+                                        Search documents
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Enhanced file upload display
+        const fileUpload = document.querySelector('.file-upload');
+        const fileInput = document.querySelector('#docPhoto');
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const fileSize = (this.files[0].size / 1024 / 1024).toFixed(2);
+                const fileType = this.files[0].type.split('/')[0] === 'image' ? 
+                    `<i class="fas fa-image text-primary text-3xl mb-3"></i>` : 
+                    `<i class="fas fa-file-pdf text-primary text-3xl mb-3"></i>`;
+                
+                fileUpload.innerHTML = `
+                    ${fileType}
+                    <span class="text-gray-700 font-medium truncate max-w-xs">${this.files[0].name}</span>
+                    <span class="text-sm text-gray-500 mt-1">${fileSize} MB</span>
+                    <span class="text-xs text-primary font-medium mt-2">Click to change</span>
+                `;
+            }
+        });
+        
+        // Add drag and drop functionality
+        fileUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUpload.classList.add('border-primary', 'bg-primary-50');
+        });
+        
+        fileUpload.addEventListener('dragleave', () => {
+            fileUpload.classList.remove('border-primary', 'bg-primary-50');
+        });
+        
+        fileUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUpload.classList.remove('border-primary', 'bg-primary-50');
+            fileInput.files = e.dataTransfer.files;
+            const event = new Event('change');
+            fileInput.dispatchEvent(event);
+        });
+        
+        // Multi-step form functionality
+        const step1 = document.getElementById('step-1');
+        const step2 = document.getElementById('step-2');
+        const nextBtn = document.getElementById('next-btn');
+        const backBtn = document.getElementById('back-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const stepTitle = document.getElementById('step-title');
+        const stepDescription = document.getElementById('step-description');
+        const mobileStepTitle = document.getElementById('mobile-step-title');
+        const mobileStepDescription = document.getElementById('mobile-step-description');
+        const stepIndicators = document.querySelectorAll('.step-indicator');
+        const submitBtn = document.getElementById('submit-btn');
+        
+        nextBtn.addEventListener('click', function() {
+            // Validate step 1 before proceeding
+            const docName = document.getElementById('docName').value;
+            const docType = document.getElementById('docType').value;
+            const location = document.getElementById('location').value;
+            
+            if (!docName || !docType || !location) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Switch to step 2
+            step1.classList.remove('active');
+            step2.classList.add('active');
+            progressBar.style.width = '100%';
+            
+            // Update step indicators
+            stepIndicators.forEach(indicator => {
+                if (indicator.dataset.step === '2') {
+                    indicator.classList.remove('bg-gray-200', 'text-gray-600');
+                    indicator.classList.add('bg-primary', 'text-white');
+                }
+            });
+            
+            // Update titles
+            stepTitle.textContent = 'Contact Information';
+            stepDescription.textContent = 'How should we contact you?';
+            mobileStepTitle.textContent = 'Contact Information';
+            mobileStepDescription.textContent = 'How should we contact you?';
+        });
+        
+        backBtn.addEventListener('click', function() {
+            // Switch back to step 1
+            step2.classList.remove('active');
+            step1.classList.add('active');
+            progressBar.style.width = '0%';
+            
+            // Update step indicators
+            stepIndicators.forEach(indicator => {
+                if (indicator.dataset.step === '2') {
+                    indicator.classList.add('bg-gray-200', 'text-gray-600');
+                    indicator.classList.remove('bg-primary', 'text-white');
+                }
+            });
+            
+            // Update titles
+            stepTitle.textContent = 'Document Details';
+            stepDescription.textContent = 'Tell us about the document you found';
+            mobileStepTitle.textContent = 'Document Details';
+            mobileStepDescription.textContent = 'Tell us about the document you found';
+        });
+        
+        // Form submission
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById("reportForm");
+            
+            form.addEventListener("submit", async function(event) {
+                event.preventDefault();
+                
+                // Disable submit button to prevent multiple submissions
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner spinner mr-2"></i> Submitting...';
+                
+                try {
+                    // Create FormData from the form
+                    const formData = new FormData(form);
+                    
+                    // Get anonymous status and add to formData
+                    const isAnonymous = document.getElementById('anonymous').checked;
+                    formData.set('anonymous', isAnonymous ? 'true' : 'false');
+                    
+                    console.log("Submitting form data:", Object.fromEntries(formData.entries()));
+
+                    
+                    const response = await fetch('http://localhost:5001/api/report_found', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log("API Response:", data);
+                    
+                    if (data.success) {
+                        alert("Report submitted successfully!");
+                        // Reset form and UI
+                        form.reset();
+                        step2.classList.remove('active');
+                        step1.classList.add('active');
+                        progressBar.style.width = '0%';
+                        // Reset file upload display
+                        fileUpload.innerHTML = `
+                            <i class="fas fa-cloud-upload-alt text-primary text-3xl mb-3"></i>
+                            <span class="text-gray-700 font-medium">Drag & drop or click to upload</span>
+                            <span class="text-sm text-gray-500 mt-1">Max. 5MB (JPG, PNG, PDF)</span>
+                        `;
+                        // Reset step indicators
+                        stepIndicators.forEach(indicator => {
+                            if (indicator.dataset.step === '2') {
+                                indicator.classList.add('bg-gray-200', 'text-gray-600');
+                                indicator.classList.remove('bg-primary', 'text-white');
+                            }
+                        });
+                    } else {
+                        throw new Error(data.message || "Failed to submit report");
+                    }
+                } catch (error) {
+                    console.error("Error submitting form:", error);
+                    alert("Error: " + error.message);
+                } finally {
+                    // Re-enable submit button
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Submit Report';
+                }
+            });
+        });
+
+        fileInput.addEventListener('change', function () {
+    if (this.files && this.files[0]) {
+        const file = this.files[0];
+        const fileSize = (file.size / 1024 / 1024).toFixed(2);
+        const fileTypeIcon = file.type.includes('image')
+            ? `<i class="fas fa-image text-primary text-3xl mb-3"></i>`
+            : `<i class="fas fa-file-pdf text-primary text-3xl mb-3"></i>`;
+
+        fileUpload.innerHTML = `
+            ${fileTypeIcon}
+            <span class="text-gray-700 font-medium truncate max-w-xs">${file.name}</span>
+            <span class="text-sm text-gray-500 mt-1">${fileSize} MB</span>
+            <span class="text-xs text-primary font-medium mt-2">Click to change</span>
+        `;
+
+        // ✅ Re-append file input so it’s still in the DOM (and form)
+        fileUpload.appendChild(fileInput);
+    }
+});
+    </script>
+</body>
+</html>
