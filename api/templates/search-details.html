@@ -432,7 +432,7 @@
                         </div>
                         
                         <div class="mt-12">
-                            <a href="Search.html" class="inline-flex items-center bg-gradient-to-r from-primary to-accent hover:from-secondary hover:to-primary text-white px-8 py-4 rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl">
+                            <a href="{{ url_for('search') }}" class="inline-flex items-center bg-gradient-to-r from-primary to-accent hover:from-secondary hover:to-primary text-white px-8 py-4 rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl">
                                 <i class="fas fa-search mr-3"></i> Start Your Search Now
                                 <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
                             </a>
@@ -659,7 +659,7 @@
                     <a href="Search.html" class="bg-white text-primary px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg flex items-center justify-center">
                         <i class="fas fa-search mr-2"></i> Search Now
                     </a>
-                    <a href="report.html" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-primary transition-colors flex items-center justify-center">
+                    <a href="{{ url_for('report') }}" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-primary transition-colors flex items-center justify-center">
                         <i class="fas fa-upload mr-2"></i> Report Found Document
                     </a>
                 </div>
@@ -730,6 +730,7 @@
 </body>
 
 </html>
+
 
 
 
