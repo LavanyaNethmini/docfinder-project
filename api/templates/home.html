@@ -97,10 +97,31 @@
             font-family: Arial, sans-serif;
         }
         
+       :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+        }
+        
         nav {
             background: white;
-            padding: 1rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 100;
         }
         
         .nav-container {
@@ -114,85 +135,176 @@
         .logo {
             display: flex;
             align-items: center;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
         }
         
         .logo i {
             margin-right: 10px;
-            color: #4CAF50;
+            color: var(--accent);
+            font-size: 1.8rem;
         }
         
         #nav-links {
             display: flex;
             flex-direction: column;
             position: fixed;
-            top: 70px;
+            top: 75px;
             left: 0;
             width: 100%;
             background: white;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease, opacity 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             opacity: 0;
+            border-radius: 0 0 15px 15px;
+        }
+        
+        #nav-links.active {
+            max-height: 500px;
+            opacity: 1;
+            padding: 1rem 0;
         }
         
         @media (min-width: 768px) {
             #nav-links {
                 position: static;
                 flex-direction: row;
+                align-items: center;
                 max-height: none;
                 opacity: 1;
                 box-shadow: none;
                 width: auto;
-                gap: 1rem;
+                gap: 1.5rem;
+                padding: 0;
+                background: transparent;
             }
         }
         
         .nav-link {
-            padding: 1rem;
+            padding: 1rem 2rem;
             text-decoration: none;
-            color: #333;
-            border-bottom: 1px solid #eee;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-link i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.05);
+            transform: translateX(5px);
         }
         
         @media (min-width: 768px) {
             .nav-link {
-                border-bottom: none;
                 padding: 0.5rem 1rem;
+                border-radius: 8px;
+            }
+            .nav-link:hover {
+                transform: translateY(-3px);
             }
         }
         
         .nav-button {
-            background: linear-gradient(to right, #4CAF50, #8BC34A);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 20px;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
             text-decoration: none;
-            margin: 1rem;
+            font-weight: 600;
+            margin: 1rem 2rem;
             display: inline-block;
             text-align: center;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+        }
+        
+        .nav-button i {
+            margin-left: 8px;
         }
         
         @media (min-width: 768px) {
             .nav-button {
                 margin: 0;
+                padding: 0.6rem 1.5rem;
             }
         }
         
         .menu-btn {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             display: block;
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-btn:hover {
+            transform: rotate(90deg);
         }
         
         @media (min-width: 768px) {
             .menu-btn {
                 display: none;
             }
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            padding: 0 2rem;
+            margin-top: 1rem;
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            background: rgba(67, 97, 238, 0.1);
+            border-radius: 8px;
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn i {
+            margin-right: 10px;
+        }
+        
+        .action-btn:hover {
+            background: rgba(67, 97, 238, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .today-badge {
+            background: var(--accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+            display: inline-block;
         }
     </style>
 </head>
@@ -792,6 +904,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </body>
 
 </html>
+
 
 
 
