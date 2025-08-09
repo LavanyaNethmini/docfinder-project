@@ -636,20 +636,26 @@
         });
     });
 
-
-    document.getElementById('menu-btn').addEventListener('click', function() {
+document.getElementById('menu-btn').addEventListener('click', function() {
   const navLinks = document.getElementById('nav-links');
-  if (navLinks.classList.contains('hidden')) {
-    navLinks.classList.remove('hidden');
+
+  if (navLinks.style.maxHeight) {
+    // Currently open: close it
+    navLinks.style.maxHeight = null;
+    navLinks.style.opacity = 0;
   } else {
-    navLinks.classList.add('hidden');
+    // Currently closed: open it
+    navLinks.style.maxHeight = navLinks.scrollHeight + "px";
+    navLinks.style.opacity = 1;
   }
 });
+
 
 </script>
 </body>
 
 </html>
+
 
 
 
