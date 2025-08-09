@@ -1,27 +1,47 @@
-<nav class="flex items-center justify-between h-20 px-4">
-    <!-- Logo -->
-    <div class="flex items-center">
-        <i class="fas fa-file-alt text-accent text-2xl mr-3"></i>
-        <span class="text-2xl font-bold text-primary">DocFinder</span>
-    </div>
-    
-    <!-- Navigation Links -->
-   <div id="nav-links">
-        <a href="{{ url_for('home') }}" class="px-4 py-2 text-gray-700 hover:text-primary font-medium transition-colors">Home</a>
-        <a href="{{ url_for('report_details') }}" class="px-4 py-2 text-gray-700 hover:text-primary font-medium transition-colors">Report</a>
-        <a href="{{ url_for('search_details') }}" class="px-4 py-2 text-gray-700 hover:text-primary font-medium transition-colors">Search</a>
-        <a href="{{ url_for('about') }}" class="px-4 py-2 text-gray-700 hover:text-primary font-medium transition-colors">About Us</a>
-        <a href="{{ url_for('login') }}" class="px-4 py-2 text-gray-700 hover:text-primary font-medium transition-colors">Login</a>
-        <a href="{{ url_for('register') }}" class="mx-4 my-2 md:my-0 bg-gradient-to-r from-primary to-accent text-white px-6 py-2 rounded-full font-medium hover:from-secondary hover:to-primary transition-all shadow-md hover:shadow-lg">
-            Register
-        </a>
-    </div>
-    
-    <!-- Mobile Menu Button -->
-    <button id="menu-btn" class="md:hidden text-gray-700 focus:outline-none">
-        <i class="fas fa-bars text-2xl"></i>
-    </button>
-</nav>
+<nav>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-alt"></i>
+                <span>DocFinder</span>
+            </a>
+            
+            <div id="nav-links">
+                <a href="{{ url_for('home') }}" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="{{ url_for('report_details') }}" class="nav-link">
+                    <i class="fas fa-flag"></i> Report
+                </a>
+                <a href="{{ url_for('search_details') }}" class="nav-link">
+                    <i class="fas fa-search"></i> Search
+                </a>
+                <a href="{{ url_for('about') }}" class="nav-link">
+                    <i class="fas fa-info-circle"></i> About Us
+                </a>
+                <a href="{{ url_for('login') }}" class="nav-link">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                
+                <div class="action-buttons">
+                    <a href="{{ url_for('report_details') }}" class="action-btn">
+                        <i class="fas fa-plus-circle"></i> Report Found Document
+                    </a>
+                    <a href="{{ url_for('search_details') }}" class="action-btn">
+                        <i class="fas fa-search"></i> Search Lost Document
+                    </a>
+                </div>
+                
+                <a href="{{ url_for('register') }}" class="nav-button">
+                    Register today! <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <button id="menu-btn" class="menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
 
 
 
