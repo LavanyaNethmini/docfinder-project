@@ -18,7 +18,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 users_bp = Blueprint('users', __name__)
 
-app.config['SECRET_KEY'] = 'your-secret-key'
+
 
 # Database connection
 def get_connection():
