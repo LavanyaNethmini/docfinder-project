@@ -32,9 +32,9 @@ def home():
 def report():
     return render_template('report.html')
 
-@app.route('/search')
+@app.route('/Search')
 def search():
-    return render_template('search.html')
+    return render_template('Search.html')
 
 if __name__ == "__main__":
     import os
