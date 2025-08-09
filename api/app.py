@@ -32,7 +32,7 @@ def home():
 def report():
     return render_template('report.html')
 
-@app.route('/Search')
+@app.route('/search')
 def search():
     return render_template('Search.html')
 
