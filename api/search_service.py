@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 import mysql.connector
 
 search_bp = Blueprint('search', __name__)
-CORS(app)
+
 
 # Database connection
 def get_connection():
@@ -37,7 +37,7 @@ except Exception as e:
 # In[2]:
 
 
-@app.route('/api/search', methods=['GET'])
+@search_bp.route('/api/search', methods=['GET'])
 def search_documents():
     query = request.args.get('query')
     if not query:
