@@ -641,12 +641,10 @@
 
 
 
-// Wait for DOM to load
-        document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
             const menuBtn = document.getElementById('menu-btn');
             const navLinks = document.getElementById('nav-links');
             
-            // Only add event listener if elements exist
             if (menuBtn && navLinks) {
                 menuBtn.addEventListener('click', function() {
                     const isOpen = navLinks.style.maxHeight && navLinks.style.maxHeight !== '0px';
@@ -654,32 +652,32 @@
                     if (!isOpen) {
                         navLinks.style.maxHeight = navLinks.scrollHeight + 'px';
                         navLinks.style.opacity = '1';
-                        menuBtn.querySelector('i').classList.replace('fa-bars', 'fa-times');
+                        menuBtn.innerHTML = '<i class="fas fa-times"></i>';
                     } else {
                         navLinks.style.maxHeight = '0px';
                         navLinks.style.opacity = '0';
-                        menuBtn.querySelector('i').classList.replace('fa-times', 'fa-bars');
+                        menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                     }
                 });
                 
-                // Close menu when clicking on a link (for mobile)
+                // Close menu when clicking on a link (mobile)
                 document.querySelectorAll('.nav-link, .nav-button').forEach(link => {
                     link.addEventListener('click', function() {
-                        if (window.innerWidth < 768) { // Adjust breakpoint as needed
+                        if (window.innerWidth < 768) {
                             navLinks.style.maxHeight = '0px';
                             navLinks.style.opacity = '0';
-                            menuBtn.querySelector('i').classList.replace('fa-times', 'fa-bars');
+                            menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                         }
                     });
                 });
             }
             
-            // Handle window resize
+            // Reset menu on desktop
             window.addEventListener('resize', function() {
-                if (window.innerWidth >= 768) { // Desktop view
+                if (window.innerWidth >= 768) {
                     navLinks.style.maxHeight = '';
                     navLinks.style.opacity = '';
-                    menuBtn.querySelector('i').classList.replace('fa-times', 'fa-bars');
+                    menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                 }
             });
         });
@@ -689,6 +687,7 @@
 </body>
 
 </html>
+
 
 
 
