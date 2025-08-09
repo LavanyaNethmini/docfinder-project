@@ -89,6 +89,111 @@
             position: relative;
             overflow: hidden;
         }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        nav {
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: #4CAF50;
+        }
+        
+        #nav-links {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        @media (min-width: 768px) {
+            #nav-links {
+                position: static;
+                flex-direction: row;
+                max-height: none;
+                opacity: 1;
+                box-shadow: none;
+                width: auto;
+                gap: 1rem;
+            }
+        }
+        
+        .nav-link {
+            padding: 1rem;
+            text-decoration: none;
+            color: #333;
+            border-bottom: 1px solid #eee;
+        }
+        
+        @media (min-width: 768px) {
+            .nav-link {
+                border-bottom: none;
+                padding: 0.5rem 1rem;
+            }
+        }
+        
+        .nav-button {
+            background: linear-gradient(to right, #4CAF50, #8BC34A);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            text-decoration: none;
+            margin: 1rem;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            .nav-button {
+                margin: 0;
+            }
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: block;
+        }
+        
+        @media (min-width: 768px) {
+            .menu-btn {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body class="font-sans bg-gray-50 text-gray-800 flex flex-col min-h-screen">
@@ -687,6 +792,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </body>
 
 </html>
+
 
 
 
