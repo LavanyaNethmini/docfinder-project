@@ -726,43 +726,10 @@
                 }
             });
         });
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuBtn = document.getElementById('menu-btn');
-            const navLinks = document.getElementById('nav-links');
-            
-            if (menuBtn && navLinks) {
-                menuBtn.addEventListener('click', function() {
-                    navLinks.classList.toggle('active');
-                    menuBtn.innerHTML = navLinks.classList.contains('active') 
-                        ? '<i class="fas fa-times"></i>' 
-                        : '<i class="fas fa-bars"></i>';
-                });
-                
-                // Close menu when clicking on a link (mobile)
-                document.querySelectorAll('.nav-link, .nav-button, .action-btn').forEach(link => {
-                    link.addEventListener('click', function() {
-                        if (window.innerWidth < 768) {
-                            navLinks.classList.remove('active');
-                            menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                        }
-                    });
-                });
-            }
-            
-            // Reset menu on desktop
-            window.addEventListener('resize', function() {
-                if (window.innerWidth >= 768) {
-                    navLinks.classList.remove('active');
-                    menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                }
-            });
-        });
-
     </script>
 </body>
 
 </html>
+
 
 
