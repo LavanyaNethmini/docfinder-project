@@ -106,27 +106,27 @@
                     </div>
                     
                     <!-- Document Info -->
-                    <div class="bg-primary-50 rounded-xl p-6 mb-6 border border-primary-100">
-                        <h3 class="text-lg font-semibold text-primary mb-4">Document Information</h3>
-                        <div class="space-y-3">
-                            <div class="flex">
-                                <span class="w-32 font-medium text-gray-700">Document Type:</span>
-                                <span class="text-gray-600">National ID Card</span>
-                            </div>
-                            <div class="flex">
-                                <span class="w-32 font-medium text-gray-700">Name:</span>
-                                <span class="text-gray-600">John Doe</span>
-                            </div>
-                            <div class="flex">
-                                <span class="w-32 font-medium text-gray-700">NIC Number:</span>
-                                <span class="text-gray-600">12345-6789012-3</span>
-                            </div>
-                            <div class="flex">
-                                <span class="w-32 font-medium text-gray-700">Found Location:</span>
-                                <span class="text-gray-600">Karachi, Gulshan</span>
-                            </div>
-                        </div>
+                    <h2>Claim Document</h2>
+                    <div>
+                        <h4>Document Information</h4>
+                        <p><strong>ID:</strong> {{ document.id }}</p>
+                        <p><strong>Type:</strong> {{ document.doc_type }}</p>
+                        <p><strong>Owner Name:</strong> {{ document.owner_name }}</p>
+                        <p><strong>Found Location:</strong> {{ document.found_location }}</p>
                     </div>
+                    <form action="{{ url_for('submit_claim') }}" method="POST">
+                        <input type="hidden" name="doc_id" value="{{ document.id }}">
+                        
+                        <label>Your Full Name</label>
+                        <input type="text" name="claimer_name" required>
+                    
+                        <label>Your Contact Info</label>
+                        <input type="text" name="contact_info" required>
+                    
+                        <button type="submit">Submit Claim</button>
+                    </form>
+
+
                     
                     <form class="space-y-6">
                         <!-- Reason for Claim -->
@@ -249,6 +249,25 @@
             const event = new Event('change');
             fileInput.dispatchEvent(event);
         });
+
+         // 1. Get doc_id from query string
+    const params = new URLSearchParams(window.location.search);
+    const docId = params.get("id");
+
+    // 2. Fetch document details from backend
+    fetch(`/api/claim/${docId}`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("doc-info").innerHTML = `
+          <h3>Document Info</h3>
+          <p>ID: ${data.id}</p>
+          <p>Type: ${data.type}</p>
+          <p>Owner: ${data.owner_name}</p>
+        `;
+        document.getElementById("doc_id").value = data.id;
+      })
+      .catch(err => console.error(err));
     </script>
 </body>
+
 </html>
