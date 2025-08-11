@@ -62,4 +62,4 @@ def claim(doc_id):
     if not document:
         return "Document not found", 404
 
-    return render_template("claim.html", document=document)
+    return render_template("Claim.html", document=document)
