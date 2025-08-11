@@ -251,10 +251,10 @@
       .then(res => res.json())
       .then(data => {
         document.getElementById("doc-info").innerHTML = `
-          <h3>Document Info</h3>
+          
           <p>ID: ${data.id}</p>
           <p>Type: ${data.type}</p>
-          <p>Owner: ${data.owner_name}</p>
+          <p>Location: ${data.location}</p>
         `;
         document.getElementById("doc_id").value = data.id;
       })
@@ -265,6 +265,7 @@
 </body>
 
 </html>
+
 
 
 
