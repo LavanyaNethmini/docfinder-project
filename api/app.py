@@ -23,6 +23,7 @@ app.config['SECRET_KEY'] = 'your-secret-key'
 app.register_blueprint(users_bp)
 app.register_blueprint(search_bp)
 app.register_blueprint(documents_bp)
+app.register_blueprint(claim_bp)
 
 @app.route('/')
 def home():
@@ -64,7 +65,9 @@ def claim_details():
 def profile():
     return render_template('Profile.html')
 
-
+@app.route('/claim')
+def claim():
+    return render_template('Claim.html')
 
 
 if __name__ == "__main__":
