@@ -53,7 +53,7 @@ def claim(doc_id):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT * FROM documents WHERE id = %s", (doc_id,))
+    cursor.execute("SELECT * FROM found_documents  WHERE id = %s", (doc_id,))
     document = cursor.fetchone()
 
     cursor.close()
