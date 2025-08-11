@@ -14,7 +14,7 @@ def get_connection():
         user="avnadmin",
         password="AVNS_RQUukVzxF3liehSwMQS",
         database="defaultdb",  # or your Aiven DB name
-        ssl_ca="/api/ca.pem",  # path to Aiven's CA
+        ssl_ca="./api/ca.pem",  # path to Aiven's CA
         ssl_verify_cert=True
     )
 
