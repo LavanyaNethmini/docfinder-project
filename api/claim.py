@@ -4,15 +4,13 @@
 # In[1]:
 
 
-from flask import Flask, request, jsonify
+from flask import Blueprint, Flask, request, jsonify
 from flask_cors import CORS
 import mysql.connector
 import jwt, datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
-app = Flask(__name__)
-CORS(app)
-app.config['SECRET_KEY'] = 'your-secret-key'
+claim_bp = Blueprint('claims', __name__)'
 
 # Database connection
 def get_connection():
@@ -39,7 +37,7 @@ except Exception as e:
 # In[2]:
 
 
-@app.route('/api/submit-claim', methods=['POST'])
+@claim_bp.route('/api/submit-claim', methods=['POST'])
 def submit_claim():
     doc_id = request.form.get('doc_id')
     claimer_name = request.form.get('claimant_name')
@@ -65,7 +63,7 @@ def submit_claim():
 # In[ ]:
 
 
-@app.rout('/api/claim/<int_id>', mrthods=['GET'])
+@claim_bp.rout('/api/claim/<int_id>', mrthods=['GET'])
 def claim(doc_id):
     conn = get_connection()
     cursor = conn.cursor() 
@@ -82,9 +80,5 @@ if not document:
 return render_template(claim.html, document==document)
 
 
-# In[ ]:
 
-
-if __name__ == '__main__':
-    app.run(port=5004)
 
