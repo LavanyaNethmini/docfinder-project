@@ -10,7 +10,7 @@ import mysql.connector
 import jwt, datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
-claim_bp = Blueprint('claims', __name__)'
+claim_bp = Blueprint('claims', __name__)
 
 # Database connection
 def get_connection():
