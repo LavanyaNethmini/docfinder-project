@@ -1,14 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
-from flask import Blueprint, Flask, request, jsonify
-from flask_cors import CORS
+from flask import Blueprint, request, jsonify, render_template
 import mysql.connector
-import jwt, datetime
-from werkzeug.security import generate_password_hash, check_password_hash
 
 claim_bp = Blueprint('claims', __name__)
 
@@ -19,24 +13,14 @@ def get_connection():
         port=24448,
         user="avnadmin",
         password="AVNS_RQUukVzxF3liehSwMQS",
-        database="defaultdb",  # or lost_found_db if that’s your DB name on Aiven
-        ssl_ca="C:/wamp64/www/lost-found/api/ca.pem",  # path to Aiven's CA certificate (for SSL)
+        database="defaultdb",  # or your Aiven DB name
+        ssl_ca="/api/ca.pem",  # path to Aiven's CA
         ssl_verify_cert=True
     )
 
-
-# Test connection
-try:
-    conn = get_connection()
-    print("Connected to lost_found_db successfully!")
-    conn.close()
-except Exception as e:
-    print("Connection failed:", e)
-
-
-# In[2]:
-
-
+# ------------------------------
+# POST: Submit a claim request
+# ------------------------------
 @claim_bp.route('/api/submit-claim', methods=['POST'])
 def submit_claim():
     doc_id = request.form.get('doc_id')
@@ -44,41 +28,38 @@ def submit_claim():
     contact_info = request.form.get('claimant_email')
     claimant_nic = request.form.get('claimant_nic')
 
+    if not (doc_id and claimer_name and contact_info and claimant_nic):
+        return jsonify({"error": "Missing required fields"}), 400
+
     conn = get_connection()
     cursor = conn.cursor()
 
-    # Insert into claims table
     cursor.execute("""
         INSERT INTO claim_requests (document_id, claimant_name, claimant_nic, claimant_email, requested_at, status)
-        VALUES (%s, %s, %s, NOW(), 'Pending')
-    """, (doc_id, claimer_name, contact_info)) document_id 
+        VALUES (%s, %s, %s, %s, NOW(), 'Pending')
+    """, (doc_id, claimer_name, claimant_nic, contact_info))
 
     conn.commit()
     cursor.close()
     conn.close()
 
-    return "Claim submitted successfully!"
+    return jsonify({"message": "Claim submitted successfully!"})
 
-
-# In[ ]:
-
-
-@claim_bp.rout('/api/claim/<int_id>', mrthods=['GET'])
+# ------------------------------
+# GET: View claim form for a document
+# ------------------------------
+@claim_bp.route('/api/claim/<int:doc_id>', methods=['GET'])
 def claim(doc_id):
     conn = get_connection()
-    cursor = conn.cursor() 
+    cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT * FROM documnets WHERE Did =%s" , (doc_id))
+    cursor.execute("SELECT * FROM documents WHERE id = %s", (doc_id,))
     document = cursor.fetchone()
 
     cursor.close()
     conn.close()
 
-if not document:
-    return "Document not found", 404
+    if not document:
+        return "Document not found", 404
 
-return render_template(claim.html, document==document)
-
-
-
-
+    return render_template("claim.html", document=document)
