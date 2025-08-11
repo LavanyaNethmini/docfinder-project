@@ -557,10 +557,12 @@
                                 </div>
                             </div>
                             <div class="mt-6 flex space-x-3">
-                                <button class="flex-1 bg-primary hover:bg-secondary text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
-                                    <i class="fas fa-hand-holding-heart"></i>
-                                    <button onclick="window.location.href={{ url_for('claim', id=doc.id) }}">This is mine</button>
-
+                               <button
+                                  class="flex-1 bg-primary hover:bg-secondary text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                                  onclick="window.location.href='/claim/${doc.id}'"
+                                >
+                                  <i class="fas fa-hand-holding-heart"></i>
+                                  <span>This is mine</span>
                                 </button>
                                 <button class="details-btn flex-1 border border-primary text-primary hover:bg-primary50 py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
                                     <i class="fas fa-info-circle"></i>
@@ -713,6 +715,7 @@ detailsBtn.addEventListener('click', function(e) {
 </body>
 
 </html>
+
 
 
 
