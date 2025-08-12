@@ -32,12 +32,12 @@ def submit_claim():
         nic = request.form.get("claimant_nic")
         email = request.form.get("claimant_email")
 
-        cur.execute("""
+       cur.execute("""
             INSERT INTO claim_requests (document_id, claimant_name, claimant_nic, claimant_email, status, requested_at)
             VALUES (%s, %s, %s, %s, 'pending', %s)
-            RETURNING id;
         """, (document_id, name, nic, email, datetime.now()))
-        claim_id = cur.fetchone()[0]
+        
+        claim_id = cur.lastrowid 
 
         cur.execute("""
             SELECT founder_name, founder_email, founder_phone, anonymous
