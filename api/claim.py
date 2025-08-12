@@ -1,9 +1,20 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import os
+import smtplib
+import ssl
+from email.message import EmailMessage
 from flask import Blueprint, request, jsonify, render_template
 import mysql.connector
 from datetime import datetime
+
+SMTP_HOST = os.getenv("SMTP_HOST")
+SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
+SMTP_USER = os.getenv("SMTP_USER")
+SMTP_PASS = os.getenv("SMTP_PASS")
+SMTP_FROM = os.getenv("SMTP_FROM", "noreply@yourdomain.com")
+SMTP_USE_TLS = os.getenv("SMTP_USE_TLS", "True").lower() in ("1", "true", "yes")
 
 claim_bp = Blueprint('claims', __name__)
 
@@ -84,3 +95,106 @@ def claim(doc_id):
         return "Document not found", 404
 
     return render_template("Claim.html", document=document)
+
+
+@claim_bp.route("/api/send-request", methods=["POST"])
+def send_request_email():
+    data = request.get_json() or {}
+    claim_id = data.get("claim_id")
+    document_id = data.get("document_id")
+
+    if not claim_id or not document_id:
+        return jsonify({"error": "Missing claim_id or document_id"}), 400
+
+    conn = get_connection()
+    cur = conn.cursor()
+    try:
+        # Fetch founder details
+        cur.execute("""
+            SELECT founder_name, founder_email, anonymous
+            FROM found_documents
+            WHERE id = %s
+        """, (document_id,))
+        founder = cur.fetchone()
+        if not founder:
+            return jsonify({"error": "Founder not found"}), 404
+
+        founder_name, founder_email, anonymous = founder
+        if anonymous:
+            return jsonify({"error": "Founder is anonymous"}), 403
+
+        # Fetch claimant details
+        cur.execute("""
+            SELECT claimant_name, claimant_email
+            FROM claim_requests
+            WHERE id = %s
+        """, (claim_id,))
+        claim_row = cur.fetchone()
+        if not claim_row:
+            return jsonify({"error": "Claim request not found"}), 404
+
+        claimant_name, claimant_email = claim_row
+
+        # Compose email
+        msg = EmailMessage()
+        msg["Subject"] = f"DocFinder: Claim request for document #{document_id}"
+        msg["From"] = SMTP_FROM
+        msg["To"] = founder_email
+
+        text_body = f"""Hello {founder_name},
+
+A user has requested to claim a document you found (Document ID: {document_id}).
+
+Claimant:
+    Name: {claimant_name}
+    Email: {claimant_email}
+
+Please reply to this email or contact the claimant directly.
+
+Thanks,
+DocFinder Team
+"""
+        html_body = f"""
+        <p>Hello {founder_name},</p>
+        <p>A user has requested to claim a document you found (Document ID: <strong>{document_id}</strong>).</p>
+        <p><strong>Claimant</strong><br/>
+            Name: {claimant_name}<br/>
+            Email: {claimant_email}
+        </p>
+        <p>Please reply to this email or contact the claimant directly.</p>
+        <p>— DocFinder</p>
+        """
+
+        msg.set_content(text_body)
+        msg.add_alternative(html_body, subtype="html")
+
+        # Send email via SMTP
+        context = ssl.create_default_context()
+        if SMTP_USE_TLS and SMTP_PORT == 587:
+            with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:
+                server.ehlo()
+                server.starttls(context=context)
+                server.ehlo()
+                server.login(SMTP_USER, SMTP_PASS)
+                server.send_message(msg)
+        else:
+            with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=context) as server:
+                server.login(SMTP_USER, SMTP_PASS)
+                server.send_message(msg)
+
+        # Optional: update claim status
+        cur.execute("""
+            UPDATE claim_requests SET status = 'requested'
+            WHERE id = %s
+        """, (claim_id,))
+        conn.commit()
+
+        return jsonify({"status": "ok", "message": "Request email sent"})
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cur.close()
+        conn.close()
+
+
