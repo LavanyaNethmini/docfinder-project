@@ -120,34 +120,26 @@
                     
 
                     
-    <form class="space-y-6 border-2 border-gray-300 rounded-xl p-6 shadow-lg bg-whitel" action="{{ url_for('claims.submit_claim') }}" method="POST" enctype="multipart/form-data">
-       
-                    <!-- Claimant Name -->
-                    <div>
-                        <label for="claimant_name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                        <input type="text" id="claimant_name" name="claimant_name" 
-                               class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm 
-                                      focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all" 
-                               placeholder="Enter your full name" required>
-                    </div>
+    <div class="max-w-md mx-auto mt-6 border border-gray-300 rounded-xl p-6 shadow-lg bg-white">
+    <h2 class="text-lg font-semibold mb-4 text-center">Claimer Details</h2>
 
-                    <!-- Claimant NIC -->
-                    <div>
-                        <label for="claimant_nic" class="block text-sm font-medium text-gray-700 mb-1">NIC Number</label>
-                        <input type="text" id="claimant_nic" name="claimant_nic"
-                               class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm 
-                                      focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                               placeholder="Enter your NIC number" required>
-                    </div>
+    <form>
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Full Name</label>
+            <input type="text" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300">
+        </div>
 
-                    <!-- Claimant Email -->
-                    <div>
-                        <label for="claimant_email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                        <input type="email" id="claimant_email" name="claimant_email"
-                               class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm 
-                                      focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                               placeholder="Enter your email" required>
-                    </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+            <input type="text" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300">
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300">
+        </div>
+
+</div>
 
     
 
@@ -292,6 +284,7 @@
 </body>
 
 </html>
+
 
 
 
