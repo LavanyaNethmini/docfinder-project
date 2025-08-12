@@ -120,7 +120,8 @@
                     
 
                     
-    <form class="space-y-6 border-2 border-gray-300 rounded-xl p-6 shadow-lg bg-white" action="{{ url_for('claims.submit_claim') }}" method="POST" enctype="multipart/form-data">
+    <form id="claimForm" class="space-y-6 border-2 border-gray-300 rounded-xl p-6 shadow-lg bg-white">
+
         <h3 class="text-lg font-semibold text-primary mb-4">Claimer Information</h3>
     <!-- Claimant Name -->
     <div>
@@ -231,6 +232,15 @@
             <script src="footer.js"></script>
         </div>
     </footer>
+
+    <div id="founderModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full">
+            <h2 class="text-lg font-semibold mb-4">Founder Details</h2>
+            <div id="founderInfo" class="space-y-2"></div>
+            <button onclick="closeModal()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded">Close</button>
+        </div>
+    </div>
+    
     <script>
         // Enhanced file upload display
         const fileUpload = document.querySelector('.file-upload');
@@ -288,11 +298,47 @@
       })
       .catch(err => console.error(err));
 
+        document.getElementById("claimForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    formData.append("document_id", "{{ document.id }}");
+
+    fetch("/submit-claim", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.founder && !data.founder.anonymous) {
+            document.getElementById("founderInfo").innerHTML = `
+                <p><strong>Name:</strong> ${data.founder.name}</p>
+                <p><strong>Email:</strong> ${data.founder.email}</p>
+                <p><strong>Phone:</strong> ${data.founder.phone}</p>
+            `;
+        } else {
+            document.getElementById("founderInfo").innerHTML = `
+                <p class="text-gray-600">The founder has chosen to remain anonymous.</p>
+            `;
+        }
+        document.getElementById("founderModal").classList.remove("hidden");
+    })
+    .catch(err => console.error(err));
+});
+
+function closeModal() {
+    document.getElementById("founderModal").classList.add("hidden");
+}
+
+
         
     </script>
+
+    
 </body>
 
 </html>
+
 
 
 
