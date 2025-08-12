@@ -308,6 +308,11 @@
     })
     .then(res => res.json())
     .then(data => {
+
+        if (data.claim_id) {
+        handleClaimSuccess(data.claim_id);
+    }
+        
         if (data.founder && !data.founder.anonymous) {
             document.getElementById("founderInfo").innerHTML = `
                 <p><strong>Name:</strong> ${data.founder.name}</p>
@@ -385,6 +390,7 @@ document.getElementById("requestBtn").addEventListener("click", () => {
 </body>
 
 </html>
+
 
 
 
