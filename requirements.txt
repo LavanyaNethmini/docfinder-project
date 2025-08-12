@@ -4,3 +4,4 @@ mysql-connector-python
 PyJWT
 werkzeug
 gunicorn
+sendgrid
