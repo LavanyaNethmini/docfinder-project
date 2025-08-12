@@ -32,7 +32,7 @@ def submit_claim():
         nic = request.form.get("claimant_nic")
         email = request.form.get("claimant_email")
 
-       cur.execute("""
+        cur.execute("""
             INSERT INTO claim_requests (document_id, claimant_name, claimant_nic, claimant_email, status, requested_at)
             VALUES (%s, %s, %s, %s, 'pending', %s)
         """, (document_id, name, nic, email, datetime.now()))
@@ -65,6 +65,7 @@ def submit_claim():
         "claim_id": claim_id,
         "founder": founder_data
     })
+
 # ------------------------------
 # GET: View claim form for a document
 # ------------------------------
