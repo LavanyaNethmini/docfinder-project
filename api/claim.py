@@ -21,29 +21,45 @@ def get_connection():
 # ------------------------------
 # POST: Submit a claim request
 # ------------------------------
-@claim_bp.route('/api/submit-claim', methods=['POST'])
+@claim_bp.route("/api/submit-claim", methods=["POST"])
 def submit_claim():
-    doc_id = request.form.get('doc_id')
-    claimer_name = request.form.get('claimant_name')
-    contact_info = request.form.get('claimant_email')
-    claimant_nic = request.form.get('claimant_nic')
+    document_id = request.form.get("document_id")
+    name = request.form.get("claimant_name")
+    nic = request.form.get("claimant_nic")
+    email = request.form.get("claimant_email")
 
-    if not (doc_id and claimer_name and contact_info and claimant_nic):
-        return jsonify({"error": "Missing required fields"}), 400
+    cur = conn.cursor()
+    cur.execute("""
+        INSERT INTO claim_requests (document_id, claimant_name, claimant_nic, claimant_email, status, requested_at)
+        VALUES (%s, %s, %s, %s, 'pending', %s)
+        RETURNING id;
+    """, (document_id, name, nic, email, datetime.now()))
+    claim_id = cur.fetchone()[0]
 
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        INSERT INTO claim_requests (document_id, claimant_name, claimant_nic, claimant_email, requested_at, status)
-        VALUES (%s, %s, %s, %s, NOW(), 'Pending')
-    """, (doc_id, claimer_name, claimant_nic, contact_info))
-
+    # Get founder details if not anonymous
+    cur.execute("""
+        SELECT founder_name, founder_email, founder_phone, anonymous
+        FROM found_documents
+        WHERE id = %s
+    """, (document_id,))
+    founder = cur.fetchone()
     conn.commit()
-    cursor.close()
-    conn.close()
+    cur.close()
 
-    return jsonify({"message": "Claim submitted successfully!"})
+    if founder:
+        founder_data = {
+            "name": founder[0],
+            "email": founder[1],
+            "phone": founder[2],
+            "anonymous": founder[3]
+        }
+    else:
+        founder_data = None
+
+    return jsonify({
+        "claim_id": claim_id,
+        "founder": founder_data
+    })
 
 # ------------------------------
 # GET: View claim form for a document
