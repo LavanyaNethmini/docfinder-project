@@ -120,7 +120,7 @@
                     
 
                     
-    <form class="space-y-6" action="{{ url_for('claims.submit_claim') }}" method="POST" enctype="multipart/form-data">
+    <form class="space-y-6 border-2 border-gray-300 rounded-xl p-6 shadow-lg bg-white" action="{{ url_for('claims.submit_claim') }}" method="POST" enctype="multipart/form-data">
         <h3 class="text-lg font-semibold text-primary mb-4">Claimer Information</h3>
     <!-- Claimant Name -->
     <div>
@@ -149,14 +149,7 @@
                placeholder="Enter your email" required>
     </div>
 
-    <!-- Reason for Claim -->
-    <div>
-        <label for="reason" class="block text-sm font-medium text-gray-700 mb-1">Reason for Claim</label>
-        <textarea id="reason" name="reason"
-                  class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm 
-                         focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                  rows="4" placeholder="Explain why you believe this is your document and how you can verify ownership" required></textarea>
-    </div>
+    
 
     <!-- NIC Copy Upload -->
     <div>
@@ -300,6 +293,7 @@
 </body>
 
 </html>
+
 
 
 
