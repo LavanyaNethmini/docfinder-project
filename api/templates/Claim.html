@@ -122,10 +122,42 @@
                     
                     <form class="space-y-6">
                         <!-- Reason for Claim -->
-                        <div>
-                            <label for="reason" class="block text-sm font-medium text-gray-700 mb-1">Reason for Claim</label>
-                            <textarea id="reason" class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all" rows="4" placeholder="Explain why you believe this is your document and how you can verify ownership" required></textarea>
-                        </div>
+                        <form class="space-y-6" action="{{ url_for('claims.submit_claim') }}" method="POST" enctype="multipart/form-data">
+    <!-- Claimant Name -->
+    <div>
+        <label for="claimant_name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+        <input type="text" id="claimant_name" name="claimant_name" 
+               class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm 
+                      focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all" 
+               placeholder="Enter your full name" required>
+    </div>
+
+    <!-- Claimant NIC -->
+    <div>
+        <label for="claimant_nic" class="block text-sm font-medium text-gray-700 mb-1">NIC Number</label>
+        <input type="text" id="claimant_nic" name="claimant_nic"
+               class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm 
+                      focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+               placeholder="Enter your NIC number" required>
+    </div>
+
+    <!-- Claimant Email -->
+    <div>
+        <label for="claimant_email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+        <input type="email" id="claimant_email" name="claimant_email"
+               class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm 
+                      focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+               placeholder="Enter your email" required>
+    </div>
+
+    <!-- Reason for Claim -->
+    <div>
+        <label for="reason" class="block text-sm font-medium text-gray-700 mb-1">Reason for Claim</label>
+        <textarea id="reason" name="reason"
+                  class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm 
+                         focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                  rows="4" placeholder="Explain why you believe this is your document and how you can verify ownership" required></textarea>
+    </div>
                         
                         <!-- NIC Copy Upload -->
                         <div>
@@ -265,6 +297,7 @@
 </body>
 
 </html>
+
 
 
 
