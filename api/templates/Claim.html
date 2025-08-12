@@ -388,6 +388,54 @@ document.getElementById("requestBtn").addEventListener("click", () => {
     });
 });
 
+ let lastClaimId = null;
+let currentDocumentId = document.getElementById('docIdHidden').value;
+
+// After submitting the claim form and getting the claim_id:
+function handleClaimSuccess(claimId) {
+    lastClaimId = claimId;
+    // Show founder modal here if needed
+}
+
+document.getElementById("requestBtn").addEventListener("click", () => {
+    const btn = document.getElementById("requestBtn");
+    if (!lastClaimId || !currentDocumentId) {
+        alert("Missing claim ID or document ID");
+        return;
+    }
+    btn.disabled = true;
+    btn.textContent = "Sending...";
+
+    fetch("/api/send-request", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            claim_id: lastClaimId,
+            document_id: currentDocumentId
+        })
+    })
+    .then(res => res.json())
+    .then(json => {
+        if (json.error) {
+            alert("Error: " + json.error);
+            btn.disabled = false;
+            btn.textContent = "Request";
+        } else {
+            btn.textContent = "Requested";
+            btn.classList.remove("bg-green-600");
+            btn.classList.add("bg-gray-400");
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Failed to send request. Try again later.");
+        btn.disabled = false;
+        btn.textContent = "Request";
+    });
+});
+       
         
     </script>
 
@@ -395,6 +443,7 @@ document.getElementById("requestBtn").addEventListener("click", () => {
 </body>
 
 </html>
+
 
 
 
