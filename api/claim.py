@@ -23,28 +23,32 @@ def get_connection():
 # ------------------------------
 @claim_bp.route("/api/submit-claim", methods=["POST"])
 def submit_claim():
-    document_id = request.form.get("document_id")
-    name = request.form.get("claimant_name")
-    nic = request.form.get("claimant_nic")
-    email = request.form.get("claimant_email")
-
+    conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("""
-        INSERT INTO claim_requests (document_id, claimant_name, claimant_nic, claimant_email, status, requested_at)
-        VALUES (%s, %s, %s, %s, 'pending', %s)
-        RETURNING id;
-    """, (document_id, name, nic, email, datetime.now()))
-    claim_id = cur.fetchone()[0]
+    try:
+        document_id = request.form.get("document_id")
+        name = request.form.get("claimant_name")
+        nic = request.form.get("claimant_nic")
+        email = request.form.get("claimant_email")
 
-    # Get founder details if not anonymous
-    cur.execute("""
-        SELECT founder_name, founder_email, founder_phone, anonymous
-        FROM found_documents
-        WHERE id = %s
-    """, (document_id,))
-    founder = cur.fetchone()
-    conn.commit()
-    cur.close()
+        cur.execute("""
+            INSERT INTO claim_requests (document_id, claimant_name, claimant_nic, claimant_email, status, requested_at)
+            VALUES (%s, %s, %s, %s, 'pending', %s)
+            RETURNING id;
+        """, (document_id, name, nic, email, datetime.now()))
+        claim_id = cur.fetchone()[0]
+
+        cur.execute("""
+            SELECT founder_name, founder_email, founder_phone, anonymous
+            FROM found_documents
+            WHERE id = %s
+        """, (document_id,))
+        founder = cur.fetchone()
+        conn.commit()
+
+    finally:
+        cur.close()
+        conn.close()
 
     if founder:
         founder_data = {
@@ -60,7 +64,6 @@ def submit_claim():
         "claim_id": claim_id,
         "founder": founder_data
     })
-
 # ------------------------------
 # GET: View claim form for a document
 # ------------------------------
