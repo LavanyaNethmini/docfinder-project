@@ -304,7 +304,7 @@
     const formData = new FormData(this);
     formData.append("document_id", "{{ document.id }}");
 
-    fetch("/submit-claim", {
+    fetch("/api/submit-claim", {
         method: "POST",
         body: formData
     })
@@ -338,6 +338,7 @@ function closeModal() {
 </body>
 
 </html>
+
 
 
 
