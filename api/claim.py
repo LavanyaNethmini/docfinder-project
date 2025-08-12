@@ -5,6 +5,8 @@ import os
 import smtplib
 import ssl
 from email.message import EmailMessage
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 from flask import Blueprint, request, jsonify, render_template
 import mysql.connector
 from datetime import datetime
@@ -13,7 +15,7 @@ SMTP_HOST = os.getenv("SMTP_HOST")
 SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
 SMTP_USER = os.getenv("SMTP_USER")
 SMTP_PASS = os.getenv("SMTP_PASS")
-SMTP_FROM = os.getenv("SMTP_FROM", "noreply@yourdomain.com")
+SMTP_FROM = os.getenv("SMTP_FROM", "docfinder.notify@gmail.com")
 SMTP_USE_TLS = os.getenv("SMTP_USE_TLS", "True").lower() in ("1", "true", "yes")
 
 claim_bp = Blueprint('claims', __name__)
