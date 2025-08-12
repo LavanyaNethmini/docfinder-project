@@ -3,6 +3,7 @@
 
 from flask import Blueprint, request, jsonify, render_template
 import mysql.connector
+from datetime import datetime
 
 claim_bp = Blueprint('claims', __name__)
 
