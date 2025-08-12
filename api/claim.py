@@ -113,7 +113,7 @@ def send_request_email():
     try:
         # Fetch founder details
         cur.execute("""
-            SELECT founder_name, founder_email, anonymous
+            SELECT  contact_name, contact_email, anonymous
             FROM found_documents
             WHERE id = %s
         """, (document_id,))
