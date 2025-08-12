@@ -124,7 +124,7 @@ def send_request_email():
             return jsonify({"error": "Founder not found"}), 404
 
         contact_name, contact_email, anonymous = founder
-        print(f"Founder: {contactr_name}, {contact_email}, anonymous={anonymous}")
+        print(f"Founder: {contact_name}, {contact_email}, anonymous={anonymous}")
         if anonymous:
             print("Founder is anonymous - aborting")
             return jsonify({"error": "Founder is anonymous"}), 403
