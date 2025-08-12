@@ -111,6 +111,7 @@ def send_request_email():
     conn = get_connection()
     cur = conn.cursor()
     try:
+        print(f"Received claim_id={claim_id}, document_id={document_id}")
         # Fetch founder details
         cur.execute("""
             SELECT  contact_name, contact_email, anonymous
@@ -119,10 +120,13 @@ def send_request_email():
         """, (document_id,))
         founder = cur.fetchone()
         if not founder:
+            print("Founder not found")
             return jsonify({"error": "Founder not found"}), 404
 
         founder_name, founder_email, anonymous = founder
+        print(f"Founder: {founder_name}, {founder_email}, anonymous={anonymous}")
         if anonymous:
+            print("Founder is anonymous - aborting")
             return jsonify({"error": "Founder is anonymous"}), 403
 
         # Fetch claimant details
@@ -133,6 +137,7 @@ def send_request_email():
         """, (claim_id,))
         claim_row = cur.fetchone()
         if not claim_row:
+            print("Claim request not found")
             return jsonify({"error": "Claim request not found"}), 404
 
         claimant_name, claimant_email = claim_row
@@ -141,9 +146,9 @@ def send_request_email():
         msg = EmailMessage()
         msg["Subject"] = f"DocFinder: Claim request for document #{document_id}"
         msg["From"] = SMTP_FROM
-        msg["To"] = founder_email
+        msg["To"] = contact_email
 
-        text_body = f"""Hello {founder_name},
+        text_body = f"""Hello {contact_name},
 
 A user has requested to claim a document you found (Document ID: {document_id}).
 
@@ -157,7 +162,7 @@ Thanks,
 DocFinder Team
 """
         html_body = f"""
-        <p>Hello {founder_name},</p>
+        <p>Hello {contact_name},</p>
         <p>A user has requested to claim a document you found (Document ID: <strong>{document_id}</strong>).</p>
         <p><strong>Claimant</strong><br/>
             Name: {claimant_name}<br/>
