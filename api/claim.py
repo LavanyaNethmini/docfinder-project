@@ -23,7 +23,7 @@ def get_connection():
 # ------------------------------
 @claim_bp.route("/api/submit-claim", methods=["POST"])
 def submit_claim():
-    conn = get_db_connection()
+    conn = get_connection()
     cur = conn.cursor()
     try:
         document_id = request.form.get("document_id")
