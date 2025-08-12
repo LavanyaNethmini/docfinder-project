@@ -40,7 +40,7 @@ def submit_claim():
         claim_id = cur.lastrowid 
 
         cur.execute("""
-            SELECT founder_name, founder_email, founder_phone, anonymous
+            SELECT contact_name, contact_email, contact_phone, anonymous
             FROM found_documents
             WHERE id = %s
         """, (document_id,))
