@@ -86,6 +86,14 @@ def send_email(to_email, subject, html_content):
         subject=subject,
         html_content=html_content
     )
+    try:
+        response = sg.send(message)
+        print(f"SendGrid response status: {response.status_code}")
+        print(f"Response body: {response.body}")
+        print(f"Response headers: {response.headers}")
+    except Exception as e:
+        print("SendGrid error:", e)
+        
     sg.send(message)
 
 def make_claim_email_html(seeker_name, doc_type_label, doc_name, doc_id):
