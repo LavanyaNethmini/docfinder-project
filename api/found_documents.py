@@ -108,12 +108,13 @@ def report_found():
         ))
 
         conn.commit()
+        found_doc_id = cursor.lastrowid 
 
        
 
         # ✅ Notify seekers who are waiting for this document name
         try:
-            notify_seekers_for_found_doc(doc_name)
+            notify_seekers_for_found_doc(found_doc_id)
         except Exception as notify_err:
             print(f"Notification error: {notify_err}")
        
