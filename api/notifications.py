@@ -9,6 +9,7 @@
 import os
 from flask import Blueprint, request, jsonify
 from datetime import datetime
+import mysql.connector
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
