@@ -108,6 +108,12 @@ def report_found():
         ))
 
         conn.commit()
+
+        # ✅ Notify seekers who are waiting for this document name
+        try:
+            notify_seekers_for_found_doc(doc_name)
+        except Exception as notify_err:
+            print(f"Notification error: {notify_err}")
        
 
 
