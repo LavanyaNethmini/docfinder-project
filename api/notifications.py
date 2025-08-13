@@ -168,7 +168,7 @@ def notify_seekers_for_found_doc(found_doc_id):
         )
         try:
             send_email(seeker['email'], subject, html)
-             print(f"Email sent to {seeker['email']}")
+            print(f"Email sent to {seeker['email']}")
             cur.execute("UPDATE notification_requests SET status='notified' WHERE id=%s", (seeker['id'],))
             conn.commit()
         except Exception as e:
