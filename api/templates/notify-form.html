@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Notification | DocFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4361ee',
+                        primary50: '#f0f4ff',
+                        primary600: '#3f37c9',
+                        secondary: '#3f37c9',
+                        accent: '#4cc9f0',
+                        accent50: '#f0fdfe',
+                        dark: '#212529',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.3s ease-in',
+                        'slide-up': 'slideUp 0.3s ease-out'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #4361ee, #4cc9f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .search-gradient {
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(76, 201, 240, 0.1) 100%);
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .document-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(67, 97, 238, 0.3);
+        }
+        
+        .shadow-card {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+    <!-- Navigation -->
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+        <div id="navbar" class="mx-auto px-4 sm:px-6 lg:px-8">
+            {% include 'navbar.html' %}
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <section class="py-12 md:py-16">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+                <!-- Notification Form Card -->
+                <div class="bg-white rounded-xl shadow-card overflow-hidden">
+                    <div class="p-8">
+                        <!-- Header -->
+                        <div class="text-center mb-8">
+                            <div class="animate-float inline-flex items-center justify-center bg-primary50 p-4 rounded-full shadow-md mb-4">
+                                <i class="fas fa-bell text-2xl text-primary"></i>
+                            </div>
+                            <h1 class="text-3xl font-bold gradient-text mb-2">Set Up Document Notification</h1>
+                            <p class="text-gray-600">We'll notify you as soon as your document is found</p>
+                        </div>
+                        
+                        <!-- Progress Steps -->
+                        <div class="flex justify-between items-center mb-10 relative">
+                            <div class="flex flex-col items-center relative z-10">
+                                <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center mb-2">
+                                    <span>1</span>
+                                </div>
+                                <span class="text-sm font-medium text-primary">Your Info</span>
+                            </div>
+                            <div class="flex flex-col items-center relative z-10">
+                                <div class="w-10 h-10 rounded-full bg-primary50 text-gray-400 flex items-center justify-center mb-2">
+                                    <span>2</span>
+                                </div>
+                                <span class="text-sm font-medium text-gray-400">Document Info</span>
+                            </div>
+                            <div class="flex flex-col items-center relative z-10">
+                                <div class="w-10 h-10 rounded-full bg-primary50 text-gray-400 flex items-center justify-center mb-2">
+                                    <span>3</span>
+                                </div>
+                                <span class="text-sm font-medium text-gray-400">Confirmation</span>
+                            </div>
+                            <div class="absolute top-5 left-0 right-0 h-1 bg-gray-200">
+                                <div class="h-1 bg-primary w-1/3"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Form -->
+                        <form id="notificationForm" class="space-y-6">
+                            <!-- Step 1: Contact Information -->
+                            <div id="step1" class="space-y-6">
+                                <h2 class="text-xl font-semibold text-gray-900 border-b pb-2">Your Contact Information</h2>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+                                        <input type="text" id="firstName" required 
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
+                                    </div>
+                                    <div>
+                                        <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+                                        <input type="text" id="lastName" required 
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
+                                    <input type="email" id="email" required 
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
+                                </div>
+                                
+                                <div>
+                                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number (Optional)</label>
+                                    <input type="tel" id="phone" 
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
+                                    <p class="text-xs text-gray-500 mt-1">We'll only call if we need to verify information</p>
+                                </div>
+                                
+                                <div class="flex justify-end pt-4">
+                                    <button type="button" onclick="nextStep()" 
+                                        class="bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg transition-colors shadow-md inline-flex items-center space-x-2">
+                                        <span>Next: Document Info</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2: Document Information (Hidden initially) -->
+                            <div id="step2" class="space-y-6 hidden">
+                                <h2 class="text-xl font-semibold text-gray-900 border-b pb-2">Document Information</h2>
+                                
+                                <div>
+                                    <label for="docType" class="block text-sm font-medium text-gray-700 mb-1">Document Type *</label>
+                                    <select id="docType" required 
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
+                                        <option value="">Select document type</option>
+                                        <option value="id_card">National ID Card</option>
+                                        <option value="passport">Passport</option>
+                                        <option value="drivers_license">Driver's License</option>
+                                        <option value="credit_card">Credit/Debit Card</option>
+                                        <option value="certificate">Certificate</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="docNumber" class="block text-sm font-medium text-gray-700 mb-1">Document Number (if known)</label>
+                                    <input type="text" id="docNumber" 
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
+                                    <p class="text-xs text-gray-500 mt-1">For example: NIC number, passport number, etc.</p>
+                                </div>
+                                
+                                <div>
+                                    <label for="docName" class="block text-sm font-medium text-gray-700 mb-1">Name on Document *</label>
+                                    <input type="text" id="docName" required 
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
+                                </div>
+                                
+                                <div>
+                                    <label for="lostLocation" class="block text-sm font-medium text-gray-700 mb-1">Where did you lose it? (Optional)</label>
+                                    <input type="text" id="lostLocation" 
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
+                                    <p class="text-xs text-gray-500 mt-1">City, venue, or approximate location</p>
+                                </div>
+                                
+                                <div>
+                                    <label for="lostDate" class="block text-sm font-medium text-gray-700 mb-1">When did you lose it? (Optional)</label>
+                                    <input type="date" id="lostDate" 
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition">
+                                </div>
+                                
+                                <div>
+                                    <label for="additionalInfo" class="block text-sm font-medium text-gray-700 mb-1">Additional Information</label>
+                                    <textarea id="additionalInfo" rows="4" 
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition"
+                                        placeholder="Any distinguishing features, contents, or other details that could help identify your document"></textarea>
+                                </div>
+                                
+                                <div class="flex justify-between pt-4">
+                                    <button type="button" onclick="prevStep()" 
+                                        class="text-primary hover:text-secondary px-6 py-3 rounded-lg transition-colors inline-flex items-center space-x-2">
+                                        <i class="fas fa-arrow-left"></i>
+                                        <span>Back</span>
+                                    </button>
+                                    <button type="button" onclick="nextStep()" 
+                                        class="bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg transition-colors shadow-md inline-flex items-center space-x-2">
+                                        <span>Next: Confirmation</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 3: Confirmation (Hidden initially) -->
+                            <div id="step3" class="space-y-6 hidden">
+                                <h2 class="text-xl font-semibold text-gray-900 border-b pb-2">Review & Submit</h2>
+                                
+                                <div class="bg-primary50 rounded-lg p-6">
+                                    <h3 class="font-medium text-gray-900 mb-4">Your Notification Details</h3>
+                                    
+                                    <div class="space-y-4">
+                                        <div>
+                                            <h4 class="text-sm font-medium text-gray-500">Contact Information</h4>
+                                            <div id="reviewContact" class="mt-1 text-gray-700"></div>
+                                        </div>
+                                        
+                                        <div>
+                                            <h4 class="text-sm font-medium text-gray-500">Document Information</h4>
+                                            <div id="reviewDocument" class="mt-1 text-gray-700"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="flex items-center h-5">
+                                        <input id="terms" name="terms" type="checkbox" required 
+                                            class="focus:ring-primary h-4 w-4 text-primary border-gray-300 rounded">
+                                    </div>
+                                    <div class="ml-3 text-sm">
+                                        <label for="terms" class="font-medium text-gray-700">I agree to the <a href="#" class="text-primary hover:text-secondary">Terms of Service</a> and <a href="#" class="text-primary hover:text-secondary">Privacy Policy</a></label>
+                                        <p class="text-gray-500">You'll receive email notifications when matching documents are found</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex justify-between pt-4">
+                                    <button type="button" onclick="prevStep()" 
+                                        class="text-primary hover:text-secondary px-6 py-3 rounded-lg transition-colors inline-flex items-center space-x-2">
+                                        <i class="fas fa-arrow-left"></i>
+                                        <span>Back</span>
+                                    </button>
+                                    <button type="submit" 
+                                        class="bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg transition-colors shadow-md inline-flex items-center space-x-2">
+                                        <i class="fas fa-bell"></i>
+                                        <span>Submit Notification Request</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Success Message (Hidden initially) -->
+                <div id="successMessage" class="hidden bg-white rounded-xl shadow-card overflow-hidden p-8 text-center mt-8">
+                    <div class="mx-auto h-20 w-20 bg-green-50 rounded-full flex items-center justify-center text-green-500 mb-6">
+                        <i class="fas fa-check text-3xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-3">Notification Set Up Successfully!</h2>
+                    <p class="text-gray-600 mb-6 max-w-md mx-auto">
+                        We'll actively monitor our database and notify you immediately when a matching document is reported.
+                    </p>
+                    <div class="space-y-3">
+                        <a href="search.html" class="inline-block bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg transition-colors shadow-md">
+                            <i class="fas fa-search mr-2"></i> Back to Search
+                        </a>
+                        <a href="dashboard.html" class="inline-block text-primary hover:text-secondary font-medium">
+                            <i class="fas fa-user-circle mr-2"></i> View Your Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-20 pb-10">
+        <div id="footer" class="container mx-auto px-4 sm:px-6 lg:px-8">
+            {% include 'footer.html' %}
+        </div>
+    </footer>
+
+    <script>
+        // Form step navigation
+        let currentStep = 1;
+        
+        function nextStep() {
+            // Validate current step before proceeding
+            if (currentStep === 1) {
+                if (!validateStep1()) return;
+                updateReviewSection();
+            } else if (currentStep === 2) {
+                if (!validateStep2()) return;
+                updateReviewSection();
+            }
+            
+            document.getElementById(`step${currentStep}`).classList.add('hidden');
+            currentStep++;
+            document.getElementById(`step${currentStep}`).classList.remove('hidden');
+            updateProgressSteps();
+        }
+        
+        function prevStep() {
+            document.getElementById(`step${currentStep}`).classList.add('hidden');
+            currentStep--;
+            document.getElementById(`step${currentStep}`).classList.remove('hidden');
+            updateProgressSteps();
+        }
+        
+        function updateProgressSteps() {
+            // Reset all steps
+            document.querySelectorAll('[class*="flex flex-col items-center"] div').forEach((el, index) => {
+                if (index < currentStep) {
+                    el.classList.remove('bg-primary50', 'text-gray-400');
+                    el.classList.add('bg-primary', 'text-white');
+                } else {
+                    el.classList.remove('bg-primary', 'text-white');
+                    el.classList.add('bg-primary50', 'text-gray-400');
+                }
+            });
+            
+            // Update progress bar
+            const progressBar = document.querySelector('.absolute.top-5.left-0.right-0.h-1.bg-gray-200 div');
+            progressBar.style.width = `${((currentStep - 1) / 2) * 100}%`;
+        }
+        
+        function validateStep1() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            
+            if (!firstName || !lastName || !email) {
+                alert('Please fill in all required fields in the Contact Information section.');
+                return false;
+            }
+            
+            if (!/^\S+@\S+\.\S+$/.test(email)) {
+                alert('Please enter a valid email address.');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function validateStep2() {
+            const docType = document.getElementById('docType').value;
+            const docName = document.getElementById('docName').value.trim();
+            
+            if (!docType || !docName) {
+                alert('Please fill in all required fields in the Document Information section.');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function updateReviewSection() {
+            // Contact Information
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            
+            let contactHtml = `
+                <p>${firstName} ${lastName}</p>
+                <p>${email}</p>
+            `;
+            
+            if (phone) {
+                contactHtml += `<p>${phone}</p>`;
+            }
+            
+            document.getElementById('reviewContact').innerHTML = contactHtml;
+            
+            // Document Information
+            const docType = document.getElementById('docType');
+            const docTypeText = docType.options[docType.selectedIndex].text;
+            const docNumber = document.getElementById('docNumber').value.trim();
+            const docName = document.getElementById('docName').value.trim();
+            const lostLocation = document.getElementById('lostLocation').value.trim();
+            const lostDate = document.getElementById('lostDate').value;
+            const additionalInfo = document.getElementById('additionalInfo').value.trim();
+            
+            let documentHtml = `
+                <p><strong>Type:</strong> ${docTypeText}</p>
+                <p><strong>Name on Document:</strong> ${docName}</p>
+            `;
+            
+            if (docNumber) {
+                documentHtml += `<p><strong>Document Number:</strong> ${docNumber}</p>`;
+            }
+            
+            if (lostLocation) {
+                documentHtml += `<p><strong>Lost Location:</strong> ${lostLocation}</p>`;
+            }
+            
+            if (lostDate) {
+                documentHtml += `<p><strong>Lost Date:</strong> ${new Date(lostDate).toLocaleDateString()}</p>`;
+            }
+            
+            if (additionalInfo) {
+                documentHtml += `<p><strong>Additional Info:</strong> ${additionalInfo}</p>`;
+            }
+            
+            document.getElementById('reviewDocument').innerHTML = documentHtml;
+        }
+        
+        // Form submission
+        document.getElementById('notificationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!document.getElementById('terms').checked) {
+                alert('Please agree to the Terms of Service and Privacy Policy.');
+                return;
+            }
+            
+            // Here you would typically send the data to your server
+            // For demo purposes, we'll just show the success message
+            this.classList.add('hidden');
+            document.getElementById('successMessage').classList.remove('hidden');
+            
+            // Scroll to success message
+            document.getElementById('successMessage').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
