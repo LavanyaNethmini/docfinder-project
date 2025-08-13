@@ -140,6 +140,7 @@ def notify_seekers_for_found_doc(found_doc_id):
     """, (found_doc_id,))
     found = cur.fetchone()
     if not found:
+        print(f"No document found with id {found_doc_id}")
         return
 
     # 2) Match notification requests by doc_name (case-insensitive)
@@ -150,8 +151,14 @@ def notify_seekers_for_found_doc(found_doc_id):
     """, (found['doc_name'],))
     matches = cur.fetchall()
 
+    if not matches:
+        print(f"No active seekers matched for document: {found['doc_name']}")
+    else:
+        print(f"Found {len(matches)} seekers for document: {found['doc_name']}")
+
     # 3) Send emails & optionally mark as 'notified'
     for seeker in matches:
+        print(f"Sending email to {seeker['email']} for document {found['doc_name']}")
         subject = "Your document may have been found — DocFinder"
         html = make_claim_email_html(
             seeker_name=f"{seeker['first_name']} {seeker['last_name']}",
@@ -161,6 +168,7 @@ def notify_seekers_for_found_doc(found_doc_id):
         )
         try:
             send_email(seeker['email'], subject, html)
+             print(f"Email sent to {seeker['email']}")
             cur.execute("UPDATE notification_requests SET status='notified' WHERE id=%s", (seeker['id'],))
             conn.commit()
         except Exception as e:
