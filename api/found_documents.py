@@ -114,7 +114,7 @@ def report_found():
         return jsonify({
             "success": True,
             "message": "Report saved successfully",
-            "found_id": found_id,
+         
             "photo_uploaded": photo_filename is not None
         })
 
