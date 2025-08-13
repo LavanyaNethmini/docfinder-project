@@ -108,12 +108,7 @@ def report_found():
         ))
 
         conn.commit()
-        found_id = cursor.lastrowid
-
-      
-
-        # 🔔 Call notification logic here
-        notify_seekers_for_found_doc(found_id)
+       
 
 
         return jsonify({
