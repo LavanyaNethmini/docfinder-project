@@ -567,9 +567,56 @@
                 behavior: 'smooth'
             });
         });
+
+     
+document.getElementById('notificationForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    if (!document.getElementById('terms').checked) {
+        alert('Please agree to the Terms of Service and Privacy Policy.');
+        return;
+    }
+
+    const payload = {
+        first_name:   document.getElementById('firstName').value.trim(),
+        last_name:    document.getElementById('lastName').value.trim(),
+        email:        document.getElementById('email').value.trim(),
+        phone:        document.getElementById('phone').value.trim(),
+        doc_type:     document.getElementById('docType').value,
+        doc_number:   document.getElementById('docNumber').value.trim(),
+        doc_name:     document.getElementById('docName').value.trim(),
+        lost_location:document.getElementById('lostLocation').value.trim(),
+        lost_date:    document.getElementById('lostDate').value, // '' or 'YYYY-MM-DD'
+        additional_info: document.getElementById('additionalInfo').value.trim()
+    };
+
+    try {
+        const res = await fetch('/api/notification-requests', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+            throw new Error(data.message || 'Failed to save notification');
+        }
+
+        // Success view
+        this.classList.add('hidden');
+        document.getElementById('successMessage').classList.remove('hidden');
+        document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+    } catch (err) {
+        console.error(err);
+        alert('Sorry, something went wrong saving your notification. Please try again.');
+    }
+});
+
+
     </script>
 </body>
 
 </html>
+
 
 
