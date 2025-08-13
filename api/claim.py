@@ -182,7 +182,7 @@ DocFinder Team
                 server.ehlo()
                 server.starttls(context=context)
                 server.ehlo()
-                server.login(SMTP_USER, SMTP_PASS)
+                server.login("apikey", SMTP_PASS)
                 server.send_message(msg)
         else:
             with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=context) as server:
