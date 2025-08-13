@@ -109,18 +109,7 @@ def report_found():
 
         conn.commit()
 
-        # --- MATCHING LOGIC ---
-    cursor.execute("""
-        SELECT first_name, email
-        FROM notification_requests
-        WHERE doc_name = %s
-    """, (doc_name,))
-    matches = cursor.fetchall()
-
-    for match in matches:
-        first_name = match[0]
-        email = match[1]
-        send_email_notification(email, first_name, doc_name)
+       
 
         # ✅ Notify seekers who are waiting for this document name
         try:
