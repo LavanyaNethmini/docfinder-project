@@ -13,6 +13,26 @@ import mysql.connector
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
+def get_connection():
+    return mysql.connector.connect(
+        host="docfinder-docfinder.d.aivencloud.com",
+        port=24448,
+        user="avnadmin",
+        password="AVNS_RQUukVzxF3liehSwMQS",
+        database="defaultdb",  # or lost_found_db if that’s your DB name on Aiven
+        ssl_ca="./api/ca.pem",  # path to Aiven's CA certificate (for SSL)
+        ssl_verify_cert=True
+    )
+
+# Test connection
+try:
+    conn = get_connection()
+    print("Connected to lost_found_db successfully!")
+    conn.close()
+except Exception as e:
+    print("Connection failed:", e)
+
+
 notifications_bp = Blueprint('notifications_bp', __name__)
 
 @notifications_bp.route('/api/notification-requests', methods=['POST'])
