@@ -23,6 +23,8 @@ app.config['SECRET_KEY'] = 'your-secret-key'
 app.register_blueprint(users_bp)
 app.register_blueprint(search_bp)
 app.register_blueprint(documents_bp)
+app.register_blueprint(notifications_bp)
+
 
 
 @app.route('/')
