@@ -134,7 +134,7 @@ def notify_seekers_for_found_doc(found_doc_id):
 
     # 1) Load the newly inserted found doc
     cur.execute("""
-        SELECT id, doc_type, doc_name, found_location, found_date
+        SELECT id, doc_type, doc_name, location, found_date
         FROM found_documents
         WHERE id = %s
     """, (found_doc_id,))
