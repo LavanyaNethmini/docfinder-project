@@ -88,11 +88,8 @@ def send_email(to_email, subject, html_content):
     )
     sg.send(message)
 
-def make_claim_email_html(seeker_name, doc_type_label, doc_name, doc_number, doc_id):
+def make_claim_email_html(seeker_name, doc_type_label, doc_name, doc_id):
     claim_url = f"{FRONTEND_CLAIM_URL}?doc_id={doc_id}"
-    number_row = f"""
-      <tr><td style="padding:4px 0;"><strong>Document Number:</strong> {doc_number}</td></tr>
-    """ if doc_number else ""
 
     return f"""
     <div style="font-family:Segoe UI,Arial,sans-serif;max-width:600px;margin:auto;border:1px solid #eee;border-radius:12px;padding:24px;">
@@ -101,7 +98,6 @@ def make_claim_email_html(seeker_name, doc_type_label, doc_name, doc_number, doc
       <table style="width:100%;margin-top:12px;">
         <tr><td style="padding:4px 0;"><strong>Type:</strong> {doc_type_label}</td></tr>
         <tr><td style="padding:4px 0;"><strong>Name on Document:</strong> {doc_name}</td></tr>
-        {number_row}
       </table>
       <div style="margin:20px 0;">
         <a href="{claim_url}"
@@ -131,16 +127,14 @@ def notify_seekers_for_found_doc(found_doc_id):
     """
     Call this AFTER you insert a new found document.
     Matching rules:
-      - doc_type must match
-      - if seeker provided doc_number, require exact number match
-      - otherwise match on (LOWER(name) LIKE) with some tolerance
+      - match seekers by document name (case-insensitive)
     """
     conn = get_connection()
     cur  = conn.cursor(dictionary=True)
 
     # 1) Load the newly inserted found doc
     cur.execute("""
-        SELECT id, doc_type, doc_number, doc_name, found_location, found_date
+        SELECT id, doc_type, doc_name, found_location, found_date
         FROM found_documents
         WHERE id = %s
     """, (found_doc_id,))
@@ -148,61 +142,32 @@ def notify_seekers_for_found_doc(found_doc_id):
     if not found:
         return
 
-    # 2) Build a matching query
-    # Strategy:
-    #  - exact number if seeker gave one
-    #  - OR fuzzy name match (contains either way)
-    # You can further improve with SOUNDEX or FULLTEXT as needed.
-
-    # We’ll do two passes to keep things simple & efficient.
-
-    # Pass A: exact doc_number matches (if this document has a number)
-    if found['doc_number']:
-        cur.execute("""
-            SELECT * FROM notification_requests
-            WHERE status='active'
-              AND doc_type = %s
-              AND doc_number = %s
-        """, (found['doc_type'], found['doc_number']))
-        by_number = cur.fetchall()
-    else:
-        by_number = []
-
-    # Pass B: fuzzy name matches (case-insensitive LIKE both directions)
+    # 2) Match notification requests by doc_name (case-insensitive)
     cur.execute("""
         SELECT * FROM notification_requests
         WHERE status='active'
-          AND doc_type = %s
-          AND (
-                LOWER(doc_name) LIKE CONCAT('%', LOWER(%s), '%')
-             OR LOWER(%s)      LIKE CONCAT('%', LOWER(doc_name), '%')
-          )
-    """, (found['doc_type'], found['doc_name'], found['doc_name']))
-    by_name = cur.fetchall()
+          AND LOWER(doc_name) LIKE CONCAT('%', LOWER(%s), '%')
+    """, (found['doc_name'],))
+    matches = cur.fetchall()
 
-    matches = {}
-    for row in by_number + by_name:
-        matches[row['id']] = row  # dedupe by id
-
-    # 3) Send emails & optionally mark as 'notified' (or leave active for future)
-    for nid, seeker in matches.items():
+    # 3) Send emails & optionally mark as 'notified'
+    for seeker in matches:
         subject = "Your document may have been found — DocFinder"
-        html    = make_claim_email_html(
+        html = make_claim_email_html(
             seeker_name=f"{seeker['first_name']} {seeker['last_name']}",
             doc_type_label=label_for_doc_type(found['doc_type']),
             doc_name=found['doc_name'],
-            doc_number=found['doc_number'] or "",
             doc_id=found['id']
         )
         try:
             send_email(seeker['email'], subject, html)
-            # Mark as notified to avoid spamming for the same doc (optional)
-            cur.execute("UPDATE notification_requests SET status='notified' WHERE id=%s", (nid,))
+            cur.execute("UPDATE notification_requests SET status='notified' WHERE id=%s", (seeker['id'],))
             conn.commit()
         except Exception as e:
-            # Log and continue; do not crash your request flow
             print("Email error:", e)
-# In[ ]:
+
+    cur.close()
+    conn.close()
 
 
 
