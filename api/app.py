@@ -70,6 +70,10 @@ def profile():
 def claim():
     return render_template('Claim.html')
 
+@app.route('/claim')
+def notify():
+    return render_template('notify-form.html')
+
 
 if __name__ == "__main__":
     import os
