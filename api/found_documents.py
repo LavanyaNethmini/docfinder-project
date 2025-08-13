@@ -12,6 +12,8 @@ from werkzeug.utils import secure_filename
 import mysql.connector
 from .notifications import notify_seekers_for_found_doc  # adjust import to match your structure
 
+documents_bp = Blueprint('documents', __name__)
+
 @documents_bp.route('/api/report_found', methods=['POST'])
 def report_found():
     conn = None
@@ -91,7 +93,7 @@ def report_found():
             conn.close()
 
 
-documents_bp = Blueprint('documents', __name__)
+
 
 
 # Configuration
