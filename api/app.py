@@ -70,7 +70,7 @@ def profile():
 def claim():
     return render_template('Claim.html')
 
-@app.route('/claim')
+@app.route('/notify')
 def notify():
     return render_template('notify-form.html')
 
