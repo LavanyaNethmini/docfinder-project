@@ -75,8 +75,7 @@ def report_found():
         contact_name = request.form.get('contact_name', '').strip()
         contact_email = request.form.get('contact_email', '').strip()
         contact_phone = request.form.get('contact_phone', '').strip()
-        doc_number = request.form.get('doc_number', '').strip()  # optional
-        found_date = request.form.get('found_date', '').strip()
+       
         
         preferred_method = request.form.get('preferred_method', 'email').strip()
         anonymous = request.form.get('anonymous', 'false').lower() == 'true'
