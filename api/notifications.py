@@ -156,6 +156,8 @@ def notify_seekers_for_found_doc(found_doc_id):
         SELECT * FROM notification_requests
         WHERE status='active'
           AND LOWER(doc_name) LIKE CONCAT('%', LOWER(%s), '%')
+          OR LOWER(%s) LIKE CONCAT('%', LOWER(doc_name), '%')
+    """, (found['doc_name'], found['doc_name']))
     """, (found['doc_name'],))
     matches = cur.fetchall()
 
