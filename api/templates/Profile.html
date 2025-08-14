@@ -272,77 +272,7 @@
 
     <!-- Scripts -->
     <script>
-        // === CONFIG (edit these if your paths differ) ===
-        const API_BASE = 'https://docfinder-project-production.up.railway.app/api'; // your Flask API base
-        const LOGIN_PAGE = 'login.html'; // where to send unauthenticated users
-
-        // Helpers
-        function getInitials(name) {
-            if (!name) return '';
-            const parts = name.trim().split(/\s+/);
-            const first = parts[0]?.[0] || '';
-            const second = parts[1]?.[0] || '';
-            return (first + second).toUpperCase();
-        }
-        function setUserUI(user) {
-            const name = user?.name || user?.full_name || user?.username || user?.email || 'User';
-            const initials = getInitials(name);
-
-            const nameEls = [
-                document.getElementById('profileName'),
-                document.getElementById('sidebarName')
-            ];
-            nameEls.forEach(el => el && (el.textContent = name));
-
-            const initialsEls = [
-                document.getElementById('profileInitials'),
-                document.getElementById('sidebarInitials')
-            ];
-            initialsEls.forEach(el => el && (el.textContent = initials));
-
-            const sinceEl = document.getElementById('memberSince');
-            if (sinceEl && user?.created_at) {
-                const d = new Date(user.created_at);
-                if (!isNaN(d)) {
-                    const fmt = d.toLocaleString(undefined, { month: 'long', year: 'numeric' });
-                    sinceEl.textContent = `Member since ${fmt}`;
-                }
-            }
-        }
-        async function loadUser() {
-            const token = localStorage.getItem('df_token');
-            // Use cached user immediately for snappy UI
-            const cached = localStorage.getItem('df_user');
-            if (cached) {
-                try { setUserUI(JSON.parse(cached)); } catch (e) {}
-            }
-            if (!token) {
-                // No token -> redirect to login
-                window.location.href = LOGIN_PAGE;
-                return;
-            }
-            // Validate & refresh details from backend
-            try {
-                const res = await fetch(`${API_BASE}/me`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                if (!res.ok) throw new Error('unauthorized');
-                const data = await res.json();
-                const normalized = {
-                    id: data.id || data.user_id || data._id,
-                    name: data.name || data.full_name || `${data.first_name ?? ''} ${data.last_name ?? ''}`.trim(),
-                    email: data.email,
-                    created_at: data.created_at || data.joined_at || data.createdAt
-                };
-                localStorage.setItem('df_user', JSON.stringify(normalized));
-                setUserUI(normalized);
-            } catch (err) {
-                // Token invalid/expired
-                localStorage.removeItem('df_token');
-                localStorage.removeItem('df_user');
-                window.location.href = LOGIN_PAGE;
-            }
-        }
+       
 
         // Mobile sidebar toggle + load user
         document.addEventListener('DOMContentLoaded', () => {
@@ -365,3 +295,4 @@
     </script>
 </body>
 </html>
+
