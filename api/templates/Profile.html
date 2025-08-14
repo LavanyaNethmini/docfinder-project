@@ -272,7 +272,15 @@
 
     <!-- Scripts -->
     <script>
-       
+       document.addEventListener('DOMContentLoaded', function () {
+    const username = localStorage.getItem('username');
+    if (username) {
+        document.getElementById('profileName').textContent = username;
+    } else {
+        // If no username found, send them back to login
+        window.location.href = '/login.html';
+    }
+});
 
         // Mobile sidebar toggle + load user
         document.addEventListener('DOMContentLoaded', () => {
@@ -295,4 +303,5 @@
     </script>
 </body>
 </html>
+
 
