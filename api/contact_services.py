@@ -10,9 +10,7 @@ from datetime import datetime
 
 contact_bp = Blueprint('contact_bp', __name__)
 
-app = Flask(__name__)
-CORS(app)
-app.config['SECRET_KEY'] = 'your-secret-key'
+
 
 def get_connection():
     return mysql.connector.connect(
