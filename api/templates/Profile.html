@@ -11,6 +11,7 @@
         
         body {
             font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
         
         .gradient-text {
@@ -21,6 +22,7 @@
         }
         
         .sidebar {
+            width: 250px;
             transition: transform 0.3s ease;
         }
         
@@ -35,11 +37,23 @@
                 transform: translateX(0);
             }
         }
+        
+        .main-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+        }
+        
+        @media (max-width: 1023px) {
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex overflow-x-hidden">
+<body class="bg-gray-50 min-h-screen flex">
     <!-- Sidebar -->
-    <aside class="sidebar w-64 bg-white shadow-lg fixed lg:relative h-screen z-40">
+    <aside class="sidebar bg-white shadow-lg fixed lg:relative h-screen z-40">
         <div class="p-4 border-b border-gray-200">
             <div class="flex items-center gap-2">
                 <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-full"></div>
@@ -48,7 +62,7 @@
         </div>
         
         <div class="p-4">
-            <div class="mb-6 flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+            <div class="mb-4 flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                 <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-full flex items-center justify-center text-white font-bold">
                     JD
                 </div>
@@ -92,22 +106,22 @@
     </aside>
 
     <!-- Main Content -->
-    <div class="flex-1 lg:ml-64 min-h-screen">
-        <div class="container mx-auto px-4 py-6">
+    <div class="main-content flex-1 min-h-screen">
+        <div class="p-4">
             <!-- Profile Header -->
-            <div class="bg-white rounded-lg shadow p-6 mb-6">
-                <div class="flex flex-col md:flex-row items-center gap-6">
-                    <div class="w-20 h-20 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+            <div class="bg-white rounded-lg shadow p-4 mb-4">
+                <div class="flex flex-col md:flex-row items-center gap-4">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-full flex items-center justify-center text-white text-xl font-bold">
                         JD
                     </div>
                     <div class="text-center md:text-left">
-                        <h1 class="text-2xl font-bold text-gray-800 mb-1">Welcome, John Doe</h1>
-                        <p class="text-gray-600 mb-3">Member since June 2023</p>
-                        <div class="flex flex-wrap justify-center md:justify-start gap-2">
-                            <span class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm font-medium">
+                        <h1 class="text-xl font-bold text-gray-800">Welcome, John Doe</h1>
+                        <p class="text-gray-600 text-sm">Member since June 2023</p>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-1 mt-2">
+                            <span class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full text-xs font-medium">
                                 <i class="fas fa-star mr-1"></i> Trusted Reporter
                             </span>
-                            <span class="bg-green-50 text-green-600 px-3 py-1 rounded-full text-sm font-medium">
+                            <span class="bg-green-50 text-green-600 px-2 py-0.5 rounded-full text-xs font-medium">
                                 <i class="fas fa-medal mr-1"></i> Verified User
                             </span>
                         </div>
@@ -116,36 +130,36 @@
             </div>
             
             <!-- Content Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <!-- My Reports -->
                 <div class="bg-white rounded-lg shadow overflow-hidden">
-                    <div class="bg-gradient-to-r from-blue-600 to-cyan-400 py-3 px-4">
-                        <h2 class="text-lg font-bold text-white">
+                    <div class="bg-gradient-to-r from-blue-600 to-cyan-400 py-2 px-4">
+                        <h2 class="text-base font-bold text-white">
                             <i class="fas fa-upload mr-2"></i> My Reports
                         </h2>
                     </div>
-                    <div class="p-4 space-y-4">
+                    <div class="p-3 space-y-3">
                         <!-- Report 1 -->
-                        <div class="border border-gray-200 rounded-lg p-3">
+                        <div class="border border-gray-200 rounded p-2">
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <h3 class="font-semibold text-gray-800">National ID Card</h3>
-                                    <p class="text-sm text-gray-600">Found in Karachi, Gulshan | 15 Jun 2023</p>
+                                    <h3 class="font-medium text-gray-800 text-sm">National ID Card</h3>
+                                    <p class="text-xs text-gray-600">Found in Karachi, Gulshan | 15 Jun 2023</p>
                                 </div>
-                                <span class="bg-green-50 text-green-600 text-xs px-2 py-1 rounded-full">
+                                <span class="bg-green-50 text-green-600 text-xs px-1.5 py-0.5 rounded-full">
                                     Claimed
                                 </span>
                             </div>
                         </div>
                         
                         <!-- Report 2 -->
-                        <div class="border border-gray-200 rounded-lg p-3">
+                        <div class="border border-gray-200 rounded p-2">
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <h3 class="font-semibold text-gray-800">Debit Card</h3>
-                                    <p class="text-sm text-gray-600">Found in Lahore, DHA | 10 Jun 2023</p>
+                                    <h3 class="font-medium text-gray-800 text-sm">Debit Card</h3>
+                                    <p class="text-xs text-gray-600">Found in Lahore, DHA | 10 Jun 2023</p>
                                 </div>
-                                <span class="bg-yellow-50 text-yellow-600 text-xs px-2 py-1 rounded-full">
+                                <span class="bg-yellow-50 text-yellow-600 text-xs px-1.5 py-0.5 rounded-full">
                                     Pending Claim
                                 </span>
                             </div>
@@ -155,28 +169,28 @@
                 
                 <!-- My Claims -->
                 <div class="bg-white rounded-lg shadow overflow-hidden">
-                    <div class="bg-gradient-to-r from-blue-600 to-cyan-400 py-3 px-4">
-                        <h2 class="text-lg font-bold text-white">
+                    <div class="bg-gradient-to-r from-blue-600 to-cyan-400 py-2 px-4">
+                        <h2 class="text-base font-bold text-white">
                             <i class="fas fa-handshake mr-2"></i> My Claims
                         </h2>
                     </div>
-                    <div class="p-4 space-y-4">
+                    <div class="p-3 space-y-3">
                         <!-- Claim 1 -->
-                        <div class="border border-gray-200 rounded-lg p-3">
-                            <h3 class="font-semibold text-gray-800">Password</h3>
-                            <p class="text-sm text-gray-600">Password: 1.0</p>
+                        <div class="border border-gray-200 rounded p-2">
+                            <h3 class="font-medium text-gray-800 text-sm">Password</h3>
+                            <p class="text-xs text-gray-600">Password: 1.0</p>
                         </div>
                         
                         <!-- Claim 2 -->
-                        <div class="border border-gray-200 rounded-lg p-3">
-                            <h3 class="font-semibold text-gray-800">Uniqueness</h3>
-                            <p class="text-sm text-gray-600">Uniqueness: 2.0</p>
+                        <div class="border border-gray-200 rounded p-2">
+                            <h3 class="font-medium text-gray-800 text-sm">Uniqueness</h3>
+                            <p class="text-xs text-gray-600">Uniqueness: 2.0</p>
                         </div>
                         
                         <!-- Claim 3 -->
-                        <div class="border border-gray-200 rounded-lg p-3">
-                            <h3 class="font-semibold text-gray-800">Subsidiary</h3>
-                            <p class="text-sm text-gray-600">Subsidiary: 1.0</p>
+                        <div class="border border-gray-200 rounded p-2">
+                            <h3 class="font-medium text-gray-800 text-sm">Subsidiary</h3>
+                            <p class="text-xs text-gray-600">Subsidiary: 1.0</p>
                         </div>
                     </div>
                 </div>
@@ -189,8 +203,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             const sidebar = document.querySelector('.sidebar');
             const openBtn = document.createElement('button');
-            openBtn.className = 'lg:hidden fixed top-4 left-4 z-30 bg-white p-2 rounded shadow';
-            openBtn.innerHTML = '<i class="fas fa-bars text-gray-600"></i>';
+            openBtn.className = 'lg:hidden fixed top-3 left-3 z-30 bg-white p-1.5 rounded shadow';
+            openBtn.innerHTML = '<i class="fas fa-bars text-gray-600 text-sm"></i>';
             
             document.body.appendChild(openBtn);
             
