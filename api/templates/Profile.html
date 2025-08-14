@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         // Retrieve token from localStorage (or wherever you store it after login)
         const token = localStorage.getItem('token');
         if (!token) {
-            window.location.href = '/Profile.html';
+            window.location.href = '{{ url_for('login')';
             return;
         }
 
@@ -388,6 +388,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     </script>
 </body>
 </html>
+
 
 
 
