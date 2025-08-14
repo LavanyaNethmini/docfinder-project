@@ -6,37 +6,12 @@
     <title>User Profile | DocFinder</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#4361ee',
-                        secondary: '#3f37c9',
-                        accent: '#4cc9f0',
-                        dark: '#212529',
-                        success: '#4bb543',
-                        warning: '#ffc107',
-                        danger: '#dc3545',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
         
         .gradient-text {
             background: linear-gradient(90deg, #4361ee, #4cc9f0);
@@ -45,26 +20,8 @@
             color: transparent;
         }
         
-        .profile-gradient {
-            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(76, 201, 240, 0.1) 100%);
-        }
-        
-        .badge {
-            transition: all 0.2s ease;
-        }
-        
-        .badge:hover {
-            transform: translateY(-2px);
-        }
-        
-        .document-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.1);
-        }
-        
-        /* Sidebar styles */
         .sidebar {
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease;
         }
         
         @media (max-width: 1023px) {
@@ -77,41 +34,22 @@
             .sidebar.open {
                 transform: translateX(0);
             }
-            .sidebar-overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: rgba(0,0,0,0.5);
-                z-index: 40;
-            }
-            .sidebar-overlay.open {
-                display: block;
-            }
         }
     </style>
 </head>
-<body class="font-sans bg-gray-50 text-gray-800 min-h-screen flex overflow-x-hidden">
-    <!-- Sidebar Overlay -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-    
+<body class="bg-gray-50 min-h-screen flex overflow-x-hidden">
     <!-- Sidebar -->
-    <aside class="sidebar w-64 bg-white shadow-lg fixed lg:relative h-screen lg:h-auto z-40" id="sidebar">
-        <div class="p-4 flex items-center justify-between border-b border-gray-200">
+    <aside class="sidebar w-64 bg-white shadow-lg fixed lg:relative h-screen z-40">
+        <div class="p-4 border-b border-gray-200">
             <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full"></div>
+                <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-full"></div>
                 <span class="text-xl font-bold gradient-text">DocFinder</span>
             </div>
-            <button class="lg:hidden text-gray-500" id="closeSidebar">
-                <i class="fas fa-times"></i>
-            </button>
         </div>
         
         <div class="p-4">
             <div class="mb-6 flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                <div class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white font-bold">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-full flex items-center justify-center text-white font-bold">
                     JD
                 </div>
                 <div>
@@ -121,264 +59,151 @@
             </div>
             
             <nav class="space-y-1">
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-primary-50 text-primary font-medium">
+                <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-blue-50 text-blue-600 font-medium">
                     <i class="fas fa-user w-5 text-center"></i>
                     <span>Profile</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50">
                     <i class="fas fa-home w-5 text-center"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50">
                     <i class="fas fa-upload w-5 text-center"></i>
                     <span>Report Document</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50">
                     <i class="fas fa-search w-5 text-center"></i>
                     <span>Search Documents</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50">
                     <i class="fas fa-handshake w-5 text-center"></i>
                     <span>My Claims</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50">
                     <i class="fas fa-cog w-5 text-center"></i>
                     <span>Settings</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50">
                     <i class="fas fa-question-circle w-5 text-center"></i>
                     <span>Help & Support</span>
                 </a>
             </nav>
-            
-            <div class="mt-6 pt-4 border-t border-gray-200">
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50 transition">
-                    <i class="fas fa-sign-out-alt w-5 text-center"></i>
-                    <span>Logout</span>
-                </a>
-            </div>
         </div>
     </aside>
 
     <!-- Main Content -->
     <div class="flex-1 lg:ml-64 min-h-screen">
-        <!-- Header -->
-        <header class="bg-white shadow-sm">
-            <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-                <button class="lg:hidden text-gray-600" id="openSidebar">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-                
-                <div class="flex items-center gap-4">
-                    <div class="relative">
-                        <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent w-64">
-                        <i class="fas fa-search absolute left-3 top-2.5 text-gray-400"></i>
-                    </div>
-                    
-                    <button class="p-2 text-gray-600 hover:text-primary relative">
-                        <i class="fas fa-bell text-xl"></i>
-                        <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-                    </button>
-                </div>
-            </div>
-        </header>
-
-        <!-- Profile Section -->
-        <section class="profile-gradient py-12 md:py-16">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Profile Header -->
-                <div class="bg-white rounded-xl shadow-xl p-8 mb-8 flex flex-col md:flex-row items-center md:items-start gap-6">
-                    <div class="w-24 h-24 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-md animate-float">
+        <div class="container mx-auto px-4 py-6">
+            <!-- Profile Header -->
+            <div class="bg-white rounded-lg shadow p-6 mb-6">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-full flex items-center justify-center text-white text-2xl font-bold">
                         JD
                     </div>
                     <div class="text-center md:text-left">
-                        <h1 class="text-3xl font-bold gradient-text mb-2">Welcome, John Doe</h1>
-                        <p class="text-gray-600 mb-4">Member since June 2023</p>
+                        <h1 class="text-2xl font-bold text-gray-800 mb-1">Welcome, John Doe</h1>
+                        <p class="text-gray-600 mb-3">Member since June 2023</p>
                         <div class="flex flex-wrap justify-center md:justify-start gap-2">
-                            <span class="badge bg-primary-50 text-primary px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1">
-                                <i class="fas fa-star"></i> Trusted Reporter
+                            <span class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm font-medium">
+                                <i class="fas fa-star mr-1"></i> Trusted Reporter
                             </span>
-                            <span class="badge bg-green-50 text-green-600 px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1">
-                                <i class="fas fa-medal"></i> Verified User
+                            <span class="bg-green-50 text-green-600 px-3 py-1 rounded-full text-sm font-medium">
+                                <i class="fas fa-medal mr-1"></i> Verified User
                             </span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Profile Content -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- My Reports Card -->
-                    <div class="bg-white rounded-xl shadow-xl overflow-hidden">
-                        <div class="bg-gradient-to-r from-primary to-accent py-4 px-6">
-                            <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                                <i class="fas fa-upload"></i> My Reports
-                            </h2>
-                        </div>
-                        <div class="p-6 space-y-4">
-                            <!-- Reported Document 1 -->
-                            <div class="document-item bg-white border border-gray-200 rounded-lg p-4 transition-all duration-300 hover:shadow-md">
-                                <div class="flex items-start justify-between">
-                                    <div class="flex items-start gap-4">
-                                        <div class="w-12 h-12 bg-primary-50 rounded-lg flex items-center justify-center text-primary">
-                                            <i class="fas fa-id-card text-xl"></i>
-                                        </div>
-                                        <div>
-                                            <h3 class="font-semibold text-gray-800">National ID Card</h3>
-                                            <p class="text-sm text-gray-600">Found in Karachi, Gulshan | 15 Jun 2023</p>
-                                        </div>
-                                    </div>
-                                    <span class="bg-green-50 text-green-600 text-xs font-medium px-3 py-1 rounded-full">
-                                        Claimed
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <!-- Reported Document 2 -->
-                            <div class="document-item bg-white border border-gray-200 rounded-lg p-4 transition-all duration-300 hover:shadow-md">
-                                <div class="flex items-start justify-between">
-                                    <div class="flex items-start gap-4">
-                                        <div class="w-12 h-12 bg-yellow-50 rounded-lg flex items-center justify-center text-yellow-500">
-                                            <i class="fas fa-credit-card text-xl"></i>
-                                        </div>
-                                        <div>
-                                            <h3 class="font-semibold text-gray-800">Debit Card</h3>
-                                            <p class="text-sm text-gray-600">Found in Lahore, DHA | 10 Jun 2023</p>
-                                        </div>
-                                    </div>
-                                    <span class="bg-yellow-50 text-yellow-600 text-xs font-medium px-3 py-1 rounded-full">
-                                        Pending Claim
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- My Claims Card -->
-                    <div class="bg-white rounded-xl shadow-xl overflow-hidden">
-                        <div class="bg-gradient-to-r from-primary to-accent py-4 px-6">
-                            <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                                <i class="fas fa-handshake"></i> My Claims
-                            </h2>
-                        </div>
-                        <div class="p-6 space-y-4">
-                            <!-- Claimed Document 1 -->
-                            <div class="document-item bg-white border border-gray-200 rounded-lg p-4 transition-all duration-300 hover:shadow-md">
-                                <div class="flex items-start justify-between">
-                                    <div class="flex items-start gap-4">
-                                        <div class="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center text-purple-500">
-                                            <i class="fas fa-passport text-xl"></i>
-                                        </div>
-                                        <div>
-                                            <h3 class="font-semibold text-gray-800">Passport</h3>
-                                            <p class="text-sm text-gray-600">Claimed on 12 Jun 2023</p>
-                                        </div>
-                                    </div>
-                                    <span class="bg-green-50 text-green-600 text-xs font-medium px-3 py-1 rounded-full">
-                                        Approved
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <!-- Claimed Document 2 -->
-                            <div class="document-item bg-white border border-gray-200 rounded-lg p-4 transition-all duration-300 hover:shadow-md">
-                                <div class="flex items-start justify-between">
-                                    <div class="flex items-start gap-4">
-                                        <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center text-blue-500">
-                                            <i class="fas fa-graduation-cap text-xl"></i>
-                                        </div>
-                                        <div>
-                                            <h3 class="font-semibold text-gray-800">University Degree</h3>
-                                            <p class="text-sm text-gray-600">Submitted on 5 Jun 2023</p>
-                                        </div>
-                                    </div>
-                                    <span class="bg-red-50 text-red-600 text-xs font-medium px-3 py-1 rounded-full">
-                                        Rejected
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Badges Card -->
-                    <div class="bg-white rounded-xl shadow-xl overflow-hidden lg:col-span-2">
-                        <div class="bg-gradient-to-r from-primary to-accent py-4 px-6">
-                            <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                                <i class="fas fa-award"></i> Appreciation Badges
-                            </h2>
-                        </div>
-                        <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <!-- Badge 1 -->
-                            <div class="badge bg-white border border-gray-200 rounded-lg p-4 flex items-center gap-4 transition-all duration-300 hover:shadow-md">
-                                <div class="w-12 h-12 bg-yellow-50 rounded-full flex items-center justify-center text-yellow-500">
-                                    <i class="fas fa-star text-xl"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-semibold text-gray-800">Trusted Reporter</h3>
-                                    <p class="text-sm text-gray-600">For reporting 5+ documents</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Badge 2 -->
-                            <div class="badge bg-white border border-gray-200 rounded-lg p-4 flex items-center gap-4 transition-all duration-300 hover:shadow-md">
-                                <div class="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center text-green-500">
-                                    <i class="fas fa-medal text-xl"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-semibold text-gray-800">Verified User</h3>
-                                    <p class="text-sm text-gray-600">Completed profile verification</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Badge 3 -->
-                            <div class="badge bg-white border border-gray-200 rounded-lg p-4 flex items-center gap-4 transition-all duration-300 hover:shadow-md">
-                                <div class="w-12 h-12 bg-primary-50 rounded-full flex items-center justify-center text-primary">
-                                    <i class="fas fa-heart text-xl"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-semibold text-gray-800">Community Helper</h3>
-                                    <p class="text-sm text-gray-600">Helped reunite 3+ documents</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+            
+            <!-- Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- My Reports -->
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-600 to-cyan-400 py-3 px-4">
+                        <h2 class="text-lg font-bold text-white">
+                            <i class="fas fa-upload mr-2"></i> My Reports
+                        </h2>
+                    </div>
+                    <div class="p-4 space-y-4">
+                        <!-- Report 1 -->
+                        <div class="border border-gray-200 rounded-lg p-3">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">National ID Card</h3>
+                                    <p class="text-sm text-gray-600">Found in Karachi, Gulshan | 15 Jun 2023</p>
+                                </div>
+                                <span class="bg-green-50 text-green-600 text-xs px-2 py-1 rounded-full">
+                                    Claimed
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Report 2 -->
+                        <div class="border border-gray-200 rounded-lg p-3">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">Debit Card</h3>
+                                    <p class="text-sm text-gray-600">Found in Lahore, DHA | 10 Jun 2023</p>
+                                </div>
+                                <span class="bg-yellow-50 text-yellow-600 text-xs px-2 py-1 rounded-full">
+                                    Pending Claim
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- My Claims -->
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-600 to-cyan-400 py-3 px-4">
+                        <h2 class="text-lg font-bold text-white">
+                            <i class="fas fa-handshake mr-2"></i> My Claims
+                        </h2>
+                    </div>
+                    <div class="p-4 space-y-4">
+                        <!-- Claim 1 -->
+                        <div class="border border-gray-200 rounded-lg p-3">
+                            <h3 class="font-semibold text-gray-800">Password</h3>
+                            <p class="text-sm text-gray-600">Password: 1.0</p>
+                        </div>
+                        
+                        <!-- Claim 2 -->
+                        <div class="border border-gray-200 rounded-lg p-3">
+                            <h3 class="font-semibold text-gray-800">Uniqueness</h3>
+                            <p class="text-sm text-gray-600">Uniqueness: 2.0</p>
+                        </div>
+                        
+                        <!-- Claim 3 -->
+                        <div class="border border-gray-200 rounded-lg p-3">
+                            <h3 class="font-semibold text-gray-800">Subsidiary</h3>
+                            <p class="text-sm text-gray-600">Subsidiary: 1.0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Simple animation for badges on hover
-        const badges = document.querySelectorAll('.badge');
-        
-        badges.forEach(badge => {
-            badge.addEventListener('mouseenter', () => {
-                badge.classList.add('shadow-md');
+        // Mobile sidebar toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const openBtn = document.createElement('button');
+            openBtn.className = 'lg:hidden fixed top-4 left-4 z-30 bg-white p-2 rounded shadow';
+            openBtn.innerHTML = '<i class="fas fa-bars text-gray-600"></i>';
+            
+            document.body.appendChild(openBtn);
+            
+            openBtn.addEventListener('click', () => {
+                sidebar.classList.add('open');
             });
             
-            badge.addEventListener('mouseleave', () => {
-                badge.classList.remove('shadow-md');
+            // Close sidebar when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!sidebar.contains(e.target) && e.target !== openBtn) {
+                    sidebar.classList.remove('open');
+                }
             });
-        });
-        
-        // Sidebar toggle functionality
-        const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
-        const openSidebarBtn = document.getElementById('openSidebar');
-        const closeSidebarBtn = document.getElementById('closeSidebar');
-        
-        openSidebarBtn.addEventListener('click', () => {
-            sidebar.classList.add('open');
-            sidebarOverlay.classList.add('open');
-        });
-        
-        closeSidebarBtn.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-            sidebarOverlay.classList.remove('open');
-        });
-        
-        sidebarOverlay.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-            sidebarOverlay.classList.remove('open');
         });
     </script>
 </body>
