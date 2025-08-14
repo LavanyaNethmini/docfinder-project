@@ -707,7 +707,7 @@
                         </div>
                         
                         <!-- Contact Form -->
-                        <div id="contactForm" class="md:w-3/5 p-10">
+                        <div id="id="contactFormForm"" class="md:w-3/5 p-10">
                             <h2 class="text-3xl font-bold text-gray-800 mb-2">Contact Us</h2>
                             <p class="text-gray-600 mb-8 leading-relaxed">Have questions or suggestions? We'd love to hear from you! Fill out the form below and we'll get back to you within 24 hours.</p>
                             
@@ -845,26 +845,36 @@ document.addEventListener('DOMContentLoaded', function(){
             });
         });
 
-        document.getElementById('contactForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+    document.getElementById('contactFormForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
 
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value.trim();
     const message = document.getElementById('message').value.trim();
 
-    const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ name, email, message })
-    });
+    try {
+        const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ name, email, subject, message })
+        });
 
-    const data = await res.json();
-    document.getElementById('responseMsg').textContent = data.message || data.error;
+        // Ensure the response is JSON
+        const data = await res.json();
+
+        document.getElementById('responseMsg').textContent = data.message || data.error;
+    } catch (err) {
+        console.error(err);
+        document.getElementById('responseMsg').textContent = "Something went wrong!";
+    }
 });
+
     </script>
 </body>
 
 </html>
+
 
 
 
