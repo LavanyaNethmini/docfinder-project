@@ -287,10 +287,35 @@
         });
     }
 });
+
+fetch('/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value
+    })
+})
+.then(res => res.json())
+.then(data => {
+    if (data.token) {
+        // Save token + name in localStorage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('username', data.user.name);
+
+        // Redirect to profile page
+        window.location.href = '/profile.html'; // change path if needed
+    } else {
+        alert(data.message || 'Login failed');
+    }
+})
+.catch(err => console.error('Error:', err));
+
     </script>
 </body>
 
 </html>
+
 
 
 
