@@ -14,6 +14,7 @@ from api.search_service import search_bp
 from api.found_documents import documents_bp
 from api.claim import claim_bp
 from api.notifications import notifications_bp
+from contact_service import contact_bp
 
 app = Flask(__name__)
 CORS(app)
@@ -27,6 +28,7 @@ app.register_blueprint(search_bp)
 app.register_blueprint(documents_bp)
 app.register_blueprint(claim_bp)
 app.register_blueprint(notifications_bp)
+app.register_blueprint(contact_bp)
 
 
 @app.route('/')
