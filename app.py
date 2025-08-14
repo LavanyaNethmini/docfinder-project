@@ -12,7 +12,9 @@ import os
 from api.lost_auth import users_bp
 from api.search_service import search_bp
 from api.found_documents import documents_bp
+from api.claim import claim_bp
 from api.notifications import notifications_bp
+from contact_services import contact_bp
 
 app = Flask(__name__)
 CORS(app)
@@ -24,13 +26,59 @@ app.config['SECRET_KEY'] = 'your-secret-key'
 app.register_blueprint(users_bp)
 app.register_blueprint(search_bp)
 app.register_blueprint(documents_bp)
+app.register_blueprint(claim_bp)
 app.register_blueprint(notifications_bp)
-
+app.register_blueprint(contact_bp)
 
 
 @app.route('/')
 def home():
     return render_template('home.html')
+
+@app.route('/report')
+def report():
+    return render_template('report.html')
+
+@app.route('/search')
+def search():
+    return render_template('Search.html')
+
+@app.route('/search_details')
+def search_details():
+    return render_template('search-details.html')
+
+@app.route('/about')
+def about():
+    return render_template('About.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/register')
+def register():
+    return render_template('Registration.html')
+
+@app.route('/report_details')
+def report_details():
+    return render_template('report-details.html')
+
+@app.route('/claim_details')
+def claim_details():
+    return render_template('claim-details.html')
+
+@app.route('/profile')
+def profile():
+    return render_template('Profile.html')
+
+@app.route('/claim')
+def claim():
+    return render_template('Claim.html')
+
+@app.route('/notify')
+def notify():
+    return render_template('notify-form.html')
+
 
 if __name__ == "__main__":
     import os
