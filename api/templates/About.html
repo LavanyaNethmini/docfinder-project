@@ -852,7 +852,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const email = document.getElementById('email').value.trim();
     const message = document.getElementById('message').value.trim();
 
-    const res = await fetch('/api/contact_services', {
+    const res = await fetch('/api/contact', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ name, email, message })
@@ -865,6 +865,7 @@ document.addEventListener('DOMContentLoaded', function(){
 </body>
 
 </html>
+
 
 
 
