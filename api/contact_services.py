@@ -10,13 +10,27 @@ from datetime import datetime
 
 contact_bp = Blueprint('contact_bp', __name__)
 
+app = Flask(__name__)
+CORS(app)
+app.config['SECRET_KEY'] = 'your-secret-key'
+
+# Database connection
 def get_connection():
     return mysql.connector.connect(
-        host="localhost",  # or your Railway DB host
+        host="localhost",
+        port=3308,
         user="root",
-        password="yourpassword",
-        database="docfinder"
+        password="",
+        database="lost_found_db"
     )
+
+# Test connection
+try:
+    conn = get_connection()
+    print("Connected to lost_found_db successfully!")
+    conn.close()
+except Exception as e:
+    print("Connection failed:", e)
 
 @contact_bp.route('/api/contact', methods=['POST'])
 def save_contact_message():
