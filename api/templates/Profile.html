@@ -351,42 +351,11 @@
        
         
 
-document.addEventListener('DOMContentLoaded', async function () {
-    try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            // redirect to actual login page
-            window.location.href = "/login.html";
-            return;
-        }
-
-        const response = await fetch('https://docfinder-project-production.up.railway.app/api/user/profile', {
-            headers: { 'Authorization': 'Bearer ' + token }
-        });
-
-        console.log('Status:', response.status);
-
-        if (!response.ok) throw new Error('Failed to load profile');
-
-        const user = await response.json();
-        console.log('User data:', user);
-
-        document.getElementById('sidebarName').textContent = user.name;
-        document.getElementById('profileName').textContent = user.name;
-
-        const initials = user.name.split(' ').map(n => n[0]).join('').toUpperCase();
-        document.getElementById('sidebarInitials').textContent = initials;
-        document.getElementById('profileInitials').textContent = initials;
-
-    } catch (err) {
-        console.error('Profile fetch error:', err);
-    }
-});
-
 
     </script>
 </body>
 </html>
+
 
 
 
