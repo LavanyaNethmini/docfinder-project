@@ -21,29 +21,29 @@
             color: transparent;
         }
         
+        /* Fixed sidebar width and positioning */
         .sidebar {
-            width: 250px;
+            width: 240px;
+            position: fixed;
+            height: 100vh;
             transition: transform 0.3s ease;
+            z-index: 40;
         }
         
+        /* Main content starts right after sidebar */
+        .main-content {
+            margin-left: 240px;
+            width: calc(100% - 240px);
+        }
+        
+        /* Mobile styles */
         @media (max-width: 1023px) {
             .sidebar {
                 transform: translateX(-100%);
-                position: fixed;
-                z-index: 50;
-                height: 100vh;
             }
             .sidebar.open {
                 transform: translateX(0);
             }
-        }
-        
-        .main-content {
-            margin-left: 250px;
-            width: calc(100% - 250px);
-        }
-        
-        @media (max-width: 1023px) {
             .main-content {
                 margin-left: 0;
                 width: 100%;
@@ -51,9 +51,9 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex">
+<body class="bg-gray-50 min-h-screen">
     <!-- Sidebar -->
-    <aside class="sidebar bg-white shadow-lg fixed lg:relative h-screen z-40">
+    <aside class="sidebar bg-white shadow-lg">
         <div class="p-4 border-b border-gray-200">
             <div class="flex items-center gap-2">
                 <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-full"></div>
@@ -106,7 +106,12 @@
     </aside>
 
     <!-- Main Content -->
-    <div class="main-content flex-1 min-h-screen">
+    <main class="main-content">
+        <!-- Mobile menu button -->
+        <button class="lg:hidden fixed top-3 left-3 z-30 bg-white p-1.5 rounded shadow" id="menuButton">
+            <i class="fas fa-bars text-gray-600 text-sm"></i>
+        </button>
+        
         <div class="p-4">
             <!-- Profile Header -->
             <div class="bg-white rounded-lg shadow p-4 mb-4">
@@ -196,25 +201,21 @@
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <script>
         // Mobile sidebar toggle
         document.addEventListener('DOMContentLoaded', function() {
             const sidebar = document.querySelector('.sidebar');
-            const openBtn = document.createElement('button');
-            openBtn.className = 'lg:hidden fixed top-3 left-3 z-30 bg-white p-1.5 rounded shadow';
-            openBtn.innerHTML = '<i class="fas fa-bars text-gray-600 text-sm"></i>';
+            const menuButton = document.getElementById('menuButton');
             
-            document.body.appendChild(openBtn);
-            
-            openBtn.addEventListener('click', () => {
-                sidebar.classList.add('open');
+            menuButton.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
             });
             
             // Close sidebar when clicking outside
             document.addEventListener('click', (e) => {
-                if (!sidebar.contains(e.target) && e.target !== openBtn) {
+                if (!sidebar.contains(e.target) && e.target !== menuButton) {
                     sidebar.classList.remove('open');
                 }
             });
