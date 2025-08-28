@@ -243,24 +243,30 @@
 
                 const result = await response.json();
 
-                if (response.ok) {
-                    localStorage.setItem('user', JSON.stringify({
-                        id: result.user.id,
-                        role: result.user.role,
-                        token: result.token
-                    }));
+               if (response.ok) {
+    localStorage.setItem('user', JSON.stringify({
+        id: result.user.id,
+        role: result.user.role,
+        token: result.token,
+        name: result.user.name
+    }));
 
-                    // Redirect based on role
-                    switch (result.user.role) {
-                        case "seeker":
-                            window.location.href = "/profile"; 
-                            break;
-                        default:
-                            throw new Error("Unknown user role");
-                    }
-                } else {
-                    alert(result.message || "Login failed");
-                }
+    console.log("User role from API:", result.user.role);
+
+    // Redirect based on role
+    switch (result.user.role.toLowerCase()) {
+        case "seeker":
+            window.location.href = "/profile"; 
+            break;
+        case "admin":
+            window.location.href = "/AdminDashboard.html";
+            break;
+        default:
+            alert("Unknown user role: " + result.user.role);
+    }
+} else {
+    alert(result.message || "Login failed");
+}
             } catch (err) {
                 console.error("Login error:", err);
                 alert("Something went wrong. Please try again.");
@@ -315,6 +321,7 @@
 </body>
 
 </html>
+
 
 
 
