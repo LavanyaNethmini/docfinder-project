@@ -218,7 +218,7 @@
 
 
 
-        document.addEventListener('DOMContentLoaded', function () {
+       document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.getElementById("loginForm");
 
     if (!loginForm) {
@@ -226,47 +226,49 @@
         return;
     }
 
-   loginForm.addEventListener("submit", async function(e) {
-    e.preventDefault();
+    loginForm.addEventListener("submit", async function(e) {
+        e.preventDefault();
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const messageElement = document.getElementById("message");
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
 
-    try {
-        const response = await fetch("https://docfinder-project-production.up.railway.app//api/login", {
-            method: "POST",
-            headers: { 
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({ email, password })
-        });
+        try {
+            const response = await fetch("https://docfinder-project-production.up.railway.app/api/login", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({ email, password })
+            });
 
-        const result = await response.json();
+            const result = await response.json();
 
-       if (response.ok) {
-    localStorage.setItem('user', JSON.stringify({
-    id: result.user.id,
-    role: result.user.role,
-    token: result.token
-}));
+            if (response.ok) {
+                localStorage.setItem('user', JSON.stringify({
+                    id: result.user.id,
+                    role: result.user.role,
+                    token: result.token
+                }));
 
-    // Redirect based on role
-    switch (result.user.role) {
-        case "seeker":
-            window.location.href = "{{ url_for('profile') }}";
-            break;
-      
-        default:
-            throw new Error("Unknown user role");
-    }
-}
-    } catch (err) {
-        messageElement.innerText = err.message;
-        console.error("Login error:", err);
-    }
+                // Redirect based on role
+                switch (result.user.role) {
+                    case "seeker":
+                        window.location.href = "/profile.html"; 
+                        break;
+                    default:
+                        throw new Error("Unknown user role");
+                }
+            } else {
+                alert(result.message || "Login failed");
+            }
+        } catch (err) {
+            console.error("Login error:", err);
+            alert("Something went wrong. Please try again.");
+        }
+    });
 });
+
 
     // Password visibility toggle
     const passwordToggle = document.querySelector('#password + button');
@@ -315,6 +317,7 @@ fetch('/api/login', {
 </body>
 
 </html>
+
 
 
 
