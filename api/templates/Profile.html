@@ -292,9 +292,34 @@
 
             loadUser();
         });
+
+        function loadUser() {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+        // If not logged in, send back to login
+        window.location.href = "/login";
+        return;
+    }
+
+    // Update profile page
+    document.getElementById("profileName").textContent = user.name || "Unknown User";
+    document.getElementById("sidebarName").textContent = user.name || "Unknown User";
+
+    // Set initials
+    const initials = (user.name || "?")
+        .split(" ")
+        .map(n => n[0])
+        .join("")
+        .toUpperCase();
+
+    document.getElementById("profileInitials").textContent = initials;
+    document.getElementById("sidebarInitials").textContent = initials;
+}
     </script>
 </body>
 </html>
+
 
 
 
